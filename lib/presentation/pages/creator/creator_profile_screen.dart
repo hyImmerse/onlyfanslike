@@ -24,7 +24,6 @@ class _CreatorProfileScreenState extends ConsumerState<CreatorProfileScreen> {
     final creatorAsyncValue = ref.watch(creatorProvider(widget.creatorId));
     final contentsAsyncValue = ref.watch(creatorContentsProvider(widget.creatorId));
     final subscriptionStatusAsyncValue = ref.watch(subscriptionStatusProvider(widget.creatorId));
-    final subscriberCountAsyncValue = ref.watch(creatorSubscriberCountProvider(widget.creatorId));
 
     return Scaffold(
       body: creatorAsyncValue.when(
@@ -32,14 +31,13 @@ class _CreatorProfileScreenState extends ConsumerState<CreatorProfileScreen> {
           slivers: [
             // App Bar with Creator Header
             SliverAppBar(
-              expandedHeight: 320.0,
+              expandedHeight: _getHeaderHeight(context),
               floating: false,
               pinned: true,
               flexibleSpace: FlexibleSpaceBar(
                 background: _buildCreatorHeader(
                   creator, 
-                  subscriptionStatusAsyncValue, 
-                  subscriberCountAsyncValue
+                  subscriptionStatusAsyncValue
                 ),
               ),
             ),
@@ -121,7 +119,6 @@ class _CreatorProfileScreenState extends ConsumerState<CreatorProfileScreen> {
   Widget _buildCreatorHeader(
     Creator creator, 
     AsyncValue<bool> subscriptionStatus,
-    AsyncValue<int> subscriberCount,
   ) {
     return Container(
       decoration: BoxDecoration(
@@ -136,9 +133,14 @@ class _CreatorProfileScreenState extends ConsumerState<CreatorProfileScreen> {
       ),
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            children: [
+          padding: EdgeInsets.symmetric(
+            horizontal: _getHorizontalPadding(context),
+            vertical: _getVerticalPadding(context),
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
               // Profile Image
               Container(
                 width: 120,
@@ -223,41 +225,46 @@ class _CreatorProfileScreenState extends ConsumerState<CreatorProfileScreen> {
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                 ),
-              const SizedBox(height: 16),
+              SizedBox(height: _getSpacing(context, 16)),
 
               // Stats Row
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _buildStatItem(
-                    context,
-                    '구독자',
-                    subscriberCount.when(
-                      data: (count) => _formatNumber(count),
-                      loading: () => '-',
-                      error: (_, __) => '-',
+              Flexible(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(
+                      child: _buildStatItem(
+                        context,
+                        '구독자',
+                        _formatNumber(creator.subscriberCount),
+                        Icons.people_outline,
+                      ),
                     ),
-                    Icons.people_outline,
-                  ),
-                  _buildStatItem(
-                    context,
-                    '콘텐츠',
-                    _formatNumber(creator.contentCount),
-                    Icons.video_library_outlined,
-                  ),
-                  _buildStatItem(
-                    context,
-                    '평점',
-                    '4.5', // Placeholder
-                    Icons.star_outline,
-                  ),
-                ],
+                    Expanded(
+                      child: _buildStatItem(
+                        context,
+                        '콘텐츠',
+                        _formatNumber(creator.contentCount),
+                        Icons.video_library_outlined,
+                      ),
+                    ),
+                    Expanded(
+                      child: _buildStatItem(
+                        context,
+                        '평점',
+                        creator.rating.toStringAsFixed(1),
+                        Icons.star_outline,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: _getSpacing(context, 20)),
 
               // Subscribe Button
               _buildSubscribeButton(subscriptionStatus),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -266,24 +273,32 @@ class _CreatorProfileScreenState extends ConsumerState<CreatorProfileScreen> {
 
   Widget _buildStatItem(BuildContext context, String label, String value, IconData icon) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         Icon(
           icon,
-          size: 24,
+          size: _getIconSize(context),
           color: Theme.of(context).colorScheme.primary,
         ),
-        const SizedBox(height: 4),
+        SizedBox(height: _getSpacing(context, 4)),
         Text(
           value,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.w700,
+            fontSize: _getFontSize(context, 16),
           ),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
         ),
         Text(
           label,
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
             color: Theme.of(context).colorScheme.onSurfaceVariant,
+            fontSize: _getFontSize(context, 12),
           ),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          textAlign: TextAlign.center,
         ),
       ],
     );
@@ -487,6 +502,78 @@ class _CreatorProfileScreenState extends ConsumerState<CreatorProfileScreen> {
       return '${(number / 1000).toStringAsFixed(1)}K';
     } else {
       return number.toString();
+    }
+  }
+
+  // 반응형 디자인 헬퍼 메소드들
+  double _getHeaderHeight(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+    
+    // 화면 크기에 따른 동적 높이 계산
+    if (screenWidth < 600) {
+      // 모바일: 조금 더 컴팩트하게
+      return screenHeight * 0.55; // 55% of screen height
+    } else if (screenWidth < 900) {
+      // 태블릿
+      return screenHeight * 0.5; // 50% of screen height
+    } else {
+      // 데스크톱
+      return 450.0; // 고정 높이
+    }
+  }
+
+  double _getHorizontalPadding(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    
+    if (screenWidth < 600) {
+      return 16.0; // 모바일: 더 작은 패딩
+    } else if (screenWidth < 900) {
+      return 24.0; // 태블릿
+    } else {
+      return 32.0; // 데스크톱: 더 큰 패딩
+    }
+  }
+
+  double _getVerticalPadding(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    
+    if (screenHeight < 700) {
+      return 12.0; // 작은 화면: 더 작은 패딩
+    } else {
+      return 16.0; // 큰 화면
+    }
+  }
+
+  double _getSpacing(BuildContext context, double baseSpacing) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    
+    if (screenHeight < 700) {
+      return baseSpacing * 0.7; // 70% 축소
+    } else if (screenHeight < 900) {
+      return baseSpacing * 0.85; // 85% 축소
+    } else {
+      return baseSpacing; // 원래 크기
+    }
+  }
+
+  double _getIconSize(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    
+    if (screenWidth < 600) {
+      return 20.0; // 모바일: 더 작은 아이콘
+    } else {
+      return 24.0; // 태블릿/데스크톱
+    }
+  }
+
+  double _getFontSize(BuildContext context, double baseSize) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    
+    if (screenWidth < 600) {
+      return baseSize * 0.9; // 90% 크기
+    } else {
+      return baseSize; // 원래 크기
     }
   }
 }

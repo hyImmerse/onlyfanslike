@@ -10,13 +10,18 @@ class MockContentRepository implements ContentRepository {
       creatorId: 'c1',
       title: 'Flutter State Management: Riverpod vs BLoC',
       description: 'A comprehensive comparison of Flutter state management solutions',
-      contentUrl: 'https://example.com/videos/flutter-state-mgmt.mp4',
-      thumbnailUrl: 'https://example.com/thumbnails/flutter-state-mgmt.jpg',
+      contentUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+      thumbnailUrl: 'https://images.unsplash.com/photo-1618761714954-0b8cd0026356?w=800&h=450&fit=crop',
       type: ContentType.video,
+      visibility: ContentVisibility.public,
       isPublic: true,
       likes: 1240,
       views: 8750,
+      likeCount: 1240,
+      viewCount: 8750,
+      commentCount: 45,
       createdAt: DateTime.now().subtract(const Duration(days: 3)),
+      publishedAt: DateTime.now().subtract(const Duration(days: 3)),
       updatedAt: DateTime.now().subtract(const Duration(days: 3)),
     ),
     ContentModel(
@@ -25,12 +30,17 @@ class MockContentRepository implements ContentRepository {
       title: 'Advanced Dart Features You Should Know',
       description: 'Exploring advanced Dart language features for better code',
       contentUrl: 'https://example.com/articles/dart-advanced.html',
-      thumbnailUrl: 'https://example.com/thumbnails/dart-advanced.jpg',
+      thumbnailUrl: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=800&h=450&fit=crop',
       type: ContentType.article,
-      isPublic: false,
+      visibility: ContentVisibility.public,
+      isPublic: true,
       likes: 890,
       views: 3420,
+      likeCount: 890,
+      viewCount: 3420,
+      commentCount: 67,
       createdAt: DateTime.now().subtract(const Duration(days: 7)),
+      publishedAt: DateTime.now().subtract(const Duration(days: 7)),
       updatedAt: DateTime.now().subtract(const Duration(days: 7)),
     ),
     ContentModel(
@@ -39,12 +49,17 @@ class MockContentRepository implements ContentRepository {
       title: 'Flutter Performance Optimization Tips',
       description: 'Learn how to make your Flutter apps blazingly fast',
       contentUrl: 'https://example.com/podcasts/flutter-performance.mp3',
-      thumbnailUrl: 'https://example.com/thumbnails/flutter-performance.jpg',
+      thumbnailUrl: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&h=450&fit=crop',
       type: ContentType.audio,
+      visibility: ContentVisibility.public,
       isPublic: true,
       likes: 567,
       views: 2890,
+      likeCount: 567,
+      viewCount: 2890,
+      commentCount: 23,
       createdAt: DateTime.now().subtract(const Duration(days: 10)),
+      publishedAt: DateTime.now().subtract(const Duration(days: 10)),
       updatedAt: DateTime.now().subtract(const Duration(days: 10)),
     ),
     
@@ -54,13 +69,18 @@ class MockContentRepository implements ContentRepository {
       creatorId: 'c2',
       title: 'Digital Painting Fundamentals',
       description: 'Master the basics of digital painting with this comprehensive guide',
-      contentUrl: 'https://example.com/videos/digital-painting-basics.mp4',
-      thumbnailUrl: 'https://example.com/thumbnails/digital-painting.jpg',
+      contentUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
+      thumbnailUrl: 'https://images.unsplash.com/photo-1596348158863-a43c93c7d56c?w=800&h=450&fit=crop',
       type: ContentType.video,
+      visibility: ContentVisibility.public,
       isPublic: true,
       likes: 2340,
       views: 12560,
+      likeCount: 2340,
+      viewCount: 12560,
+      commentCount: 156,
       createdAt: DateTime.now().subtract(const Duration(days: 5)),
+      publishedAt: DateTime.now().subtract(const Duration(days: 5)),
       updatedAt: DateTime.now().subtract(const Duration(days: 5)),
     ),
     ContentModel(
@@ -68,104 +88,36 @@ class MockContentRepository implements ContentRepository {
       creatorId: 'c2',
       title: 'Character Design Workshop',
       description: 'Step-by-step character design process from concept to completion',
-      contentUrl: 'https://example.com/videos/character-design.mp4',
-      thumbnailUrl: 'https://example.com/thumbnails/character-design.jpg',
+      contentUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+      thumbnailUrl: 'https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=800&h=450&fit=crop',
       type: ContentType.video,
-      isPublic: false,
+      visibility: ContentVisibility.public,
+      isPublic: true,
       likes: 1890,
-      views: 7650,
-      createdAt: DateTime.now().subtract(const Duration(days: 12)),
-      updatedAt: DateTime.now().subtract(const Duration(days: 12)),
-    ),
-    
-    // FitnessCoach's contents (c3)
-    ContentModel(
-      id: 'content_6',
-      creatorId: 'c3',
-      title: 'HIIT Workout for Beginners',
-      description: '20-minute high-intensity interval training for beginners',
-      contentUrl: 'https://example.com/videos/hiit-beginners.mp4',
-      thumbnailUrl: 'https://example.com/thumbnails/hiit-workout.jpg',
-      type: ContentType.video,
-      isPublic: true,
-      likes: 3450,
-      views: 18920,
-      createdAt: DateTime.now().subtract(const Duration(days: 2)),
-      updatedAt: DateTime.now().subtract(const Duration(days: 2)),
-    ),
-    ContentModel(
-      id: 'content_7',
-      creatorId: 'c3',
-      title: 'Nutrition Guide for Weight Loss',
-      description: 'Complete nutrition guide with meal plans and tips',
-      contentUrl: 'https://example.com/articles/nutrition-guide.html',
-      thumbnailUrl: 'https://example.com/thumbnails/nutrition.jpg',
-      type: ContentType.article,
-      isPublic: false,
-      likes: 1560,
-      views: 8430,
+      views: 7340,
+      likeCount: 1890,
+      viewCount: 7340,
+      commentCount: 89,
       createdAt: DateTime.now().subtract(const Duration(days: 8)),
+      publishedAt: DateTime.now().subtract(const Duration(days: 8)),
       updatedAt: DateTime.now().subtract(const Duration(days: 8)),
-    ),
-    
-    // MusicProducer's contents (c4)
-    ContentModel(
-      id: 'content_8',
-      creatorId: 'c4',
-      title: 'Beat Making with FL Studio',
-      description: 'Learn to create professional beats using FL Studio',
-      contentUrl: 'https://example.com/videos/fl-studio-beats.mp4',
-      thumbnailUrl: 'https://example.com/thumbnails/fl-studio.jpg',
-      type: ContentType.video,
-      isPublic: true,
-      likes: 890,
-      views: 4560,
-      createdAt: DateTime.now().subtract(const Duration(days: 6)),
-      updatedAt: DateTime.now().subtract(const Duration(days: 6)),
-    ),
-    
-    // CookingChef's contents (c5)
-    ContentModel(
-      id: 'content_9',
-      creatorId: 'c5',
-      title: 'Perfect Pasta Carbonara Recipe',
-      description: 'Traditional Italian carbonara recipe with step-by-step instructions',
-      contentUrl: 'https://example.com/videos/carbonara-recipe.mp4',
-      thumbnailUrl: 'https://example.com/thumbnails/carbonara.jpg',
-      type: ContentType.video,
-      isPublic: true,
-      likes: 2780,
-      views: 15640,
-      createdAt: DateTime.now().subtract(const Duration(days: 1)),
-      updatedAt: DateTime.now().subtract(const Duration(days: 1)),
-    ),
-    ContentModel(
-      id: 'content_10',
-      creatorId: 'c5',
-      title: 'Knife Skills Masterclass',
-      description: 'Professional knife techniques every home cook should know',
-      contentUrl: 'https://example.com/videos/knife-skills.mp4',
-      thumbnailUrl: 'https://example.com/thumbnails/knife-skills.jpg',
-      type: ContentType.video,
-      isPublic: false,
-      likes: 1920,
-      views: 9340,
-      createdAt: DateTime.now().subtract(const Duration(days: 14)),
-      updatedAt: DateTime.now().subtract(const Duration(days: 14)),
     ),
   ];
 
   @override
   Future<List<Content>> getCreatorContents(String creatorId, {int page = 1, int limit = 20}) async {
-    await Future.delayed(const Duration(milliseconds: 600));
+    // Simulate network delay
+    await Future.delayed(const Duration(milliseconds: 500));
     
     final creatorContents = _mockContents
         .where((content) => content.creatorId == creatorId)
+        .map((model) => model.toEntity())
         .toList();
     
-    // Sort by creation date (most recent first)
-    creatorContents.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
+    // Sort by creation date (newest first)
+    creatorContents.sort((a, b) => b.createdAt.compareTo(a.createdAt));
     
+    // Apply pagination
     final startIndex = (page - 1) * limit;
     final endIndex = (startIndex + limit).clamp(0, creatorContents.length);
     
@@ -173,69 +125,59 @@ class MockContentRepository implements ContentRepository {
       return [];
     }
     
-    return creatorContents
-        .sublist(startIndex, endIndex)
-        .map((model) => model.toEntity())
-        .toList();
+    return creatorContents.sublist(startIndex, endIndex);
   }
 
   @override
   Future<List<Content>> getSubscribedContents({int page = 1, int limit = 20}) async {
-    await Future.delayed(const Duration(milliseconds: 800));
+    // Simulate network delay
+    await Future.delayed(const Duration(milliseconds: 300));
     
-    // For demo purposes, return all contents from subscribed creators
-    // In a real app, this would filter based on user's subscriptions
-    final subscribedContents = _mockContents.toList();
+    // For demo purposes, return public content
+    final contents = _mockContents
+        .where((content) => content.isPublic)
+        .map((model) => model.toEntity())
+        .toList();
     
-    // Sort by creation date (most recent first)
-    subscribedContents.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
+    // Sort by creation date (newest first)
+    contents.sort((a, b) => b.createdAt.compareTo(a.createdAt));
     
+    // Apply pagination
     final startIndex = (page - 1) * limit;
-    final endIndex = (startIndex + limit).clamp(0, subscribedContents.length);
+    final endIndex = (startIndex + limit).clamp(0, contents.length);
     
-    if (startIndex >= subscribedContents.length) {
+    if (startIndex >= contents.length) {
       return [];
     }
     
-    return subscribedContents
-        .sublist(startIndex, endIndex)
-        .map((model) => model.toEntity())
-        .toList();
+    return contents.sublist(startIndex, endIndex);
   }
 
   @override
   Future<Content> getContentById(String contentId) async {
-    await Future.delayed(const Duration(milliseconds: 400));
+    // Simulate network delay
+    await Future.delayed(const Duration(milliseconds: 200));
     
-    final contentModel = _mockContents.where((c) => c.id == contentId).firstOrNull;
+    final contentModel = _mockContents.firstWhere(
+      (content) => content.id == contentId,
+      orElse: () => throw Exception('Content not found'),
+    );
     
-    if (contentModel == null) {
-      throw Exception('Content not found');
-    }
-    
-    // Increment view count
-    final index = _mockContents.indexWhere((c) => c.id == contentId);
-    _mockContents[index] = contentModel.copyWith(views: contentModel.views + 1);
-    
-    return _mockContents[index].toEntity();
+    return contentModel.toEntity();
   }
 
   @override
   Future<List<Content>> getFreePreviewContents(String creatorId) async {
-    await Future.delayed(const Duration(milliseconds: 500));
+    // Simulate network delay
+    await Future.delayed(const Duration(milliseconds: 300));
     
-    final freeContents = _mockContents
+    final previewContents = _mockContents
         .where((content) => content.creatorId == creatorId && content.isPublic)
-        .toList();
-    
-    // Sort by views (most popular first)
-    freeContents.sort((a, b) => b.views.compareTo(a.views));
-    
-    // Limit to 3 preview contents
-    return freeContents
         .take(3)
         .map((model) => model.toEntity())
         .toList();
+    
+    return previewContents;
   }
 
   @override
@@ -248,23 +190,10 @@ class MockContentRepository implements ContentRepository {
     required ContentType type,
     required bool isPublic,
   }) async {
-    await Future.delayed(const Duration(milliseconds: 1500));
+    // Simulate network delay
+    await Future.delayed(const Duration(milliseconds: 800));
     
-    // Validate input
-    if (title.trim().isEmpty) {
-      throw Exception('Title is required');
-    }
-    
-    if (description.trim().isEmpty) {
-      throw Exception('Description is required');
-    }
-    
-    if (contentUrl.trim().isEmpty) {
-      throw Exception('Content URL is required');
-    }
-    
-    // Create new content
-    final newContentModel = ContentModel(
+    final newContent = ContentModel(
       id: 'content_${DateTime.now().millisecondsSinceEpoch}',
       creatorId: creatorId,
       title: title,
@@ -272,23 +201,29 @@ class MockContentRepository implements ContentRepository {
       contentUrl: contentUrl,
       thumbnailUrl: thumbnailUrl,
       type: type,
+      visibility: isPublic ? ContentVisibility.public : ContentVisibility.subscribersOnly,
       isPublic: isPublic,
       likes: 0,
       views: 0,
+      likeCount: 0,
+      viewCount: 0,
+      commentCount: 0,
       createdAt: DateTime.now(),
+      publishedAt: DateTime.now(),
       updatedAt: DateTime.now(),
     );
     
-    _mockContents.add(newContentModel);
-    
-    return newContentModel.toEntity();
+    _mockContents.add(newContent);
+    return newContent.toEntity();
   }
 
   @override
   Future<void> deleteContent(String contentId) async {
-    await Future.delayed(const Duration(milliseconds: 500));
+    // Simulate network delay
+    await Future.delayed(const Duration(milliseconds: 400));
     
-    final index = _mockContents.indexWhere((c) => c.id == contentId);
+    final index = _mockContents.indexWhere((content) => content.id == contentId);
+    
     if (index == -1) {
       throw Exception('Content not found');
     }
@@ -298,19 +233,20 @@ class MockContentRepository implements ContentRepository {
 
   @override
   Future<Content> updateContent(Content content) async {
-    await Future.delayed(const Duration(milliseconds: 800));
+    // Simulate network delay
+    await Future.delayed(const Duration(milliseconds: 600));
     
     final index = _mockContents.indexWhere((c) => c.id == content.id);
+    
     if (index == -1) {
       throw Exception('Content not found');
     }
     
-    final updatedContentModel = ContentModel.fromEntity(content).copyWith(
+    final updatedModel = ContentModel.fromEntity(content).copyWith(
       updatedAt: DateTime.now(),
     );
     
-    _mockContents[index] = updatedContentModel;
-    
-    return updatedContentModel.toEntity();
+    _mockContents[index] = updatedModel;
+    return updatedModel.toEntity();
   }
 }

@@ -6,7 +6,7 @@ import 'package:creator_platform_demo/domain/repositories/subscription_repositor
 import 'package:creator_platform_demo/data/repositories/mock_user_repository.dart';
 import 'package:creator_platform_demo/data/repositories/mock_creator_repository.dart';
 import 'package:creator_platform_demo/data/repositories/mock_content_repository.dart';
-import 'package:creator_platform_demo/data/repositories/firebase_content_repository.dart';
+// import 'package:creator_platform_demo/data/repositories/firebase_content_repository.dart'; // Firebase 패키지 설치 후 주석 해제
 import 'package:creator_platform_demo/data/repositories/mock_subscription_repository.dart';
 
 /// Repository Providers - Centralized repository management
@@ -29,10 +29,10 @@ final creatorRepositoryProvider = Provider<CreatorRepository>((ref) {
 /// Content Repository Provider
 /// Provides access to content-related operations (upload, view, manage content)
 final contentRepositoryProvider = Provider<ContentRepository>((ref) {
-  // Use Firebase implementation instead of Mock
-  return FirebaseContentRepository();
-  // To switch back to mock, uncomment the line below:
-  // return MockContentRepository();
+  // Firebase가 설치되지 않은 경우 임시로 Mock 사용
+  return MockContentRepository();
+  // Firebase 설치 후 아래 라인으로 변경:
+  // return FirebaseContentRepository();
 });
 
 /// Subscription Repository Provider

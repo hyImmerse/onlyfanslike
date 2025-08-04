@@ -6,6 +6,7 @@ import 'package:creator_platform_demo/domain/entities/creator.dart';
 import 'package:creator_platform_demo/presentation/providers/content_providers.dart';
 import 'package:creator_platform_demo/presentation/providers/creator_providers.dart';
 import 'package:creator_platform_demo/presentation/providers/subscription_providers.dart';
+import 'package:creator_platform_demo/presentation/widgets/video_player_widget.dart';
 
 class ContentViewerScreen extends ConsumerStatefulWidget {
   final String contentId;
@@ -166,61 +167,9 @@ class _ContentViewerScreenState extends ConsumerState<ContentViewerScreen> {
   }
 
   Widget _buildVideoPlayer(Content content) {
-    // Video player placeholder - would need video_player package in real implementation
-    return Container(
-      color: Colors.black,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          // Thumbnail
-          if (content.thumbnailUrl != null)
-            CachedNetworkImage(
-              imageUrl: content.thumbnailUrl!,
-              fit: BoxFit.cover,
-              width: double.infinity,
-              height: double.infinity,
-            ),
-          
-          // Play Button
-          Container(
-            width: 80,
-            height: 80,
-            decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.7),
-              shape: BoxShape.circle,
-            ),
-            child: const Icon(
-              Icons.play_arrow,
-              color: Colors.white,
-              size: 40,
-            ),
-          ),
-          
-          // Video Info Overlay
-          Positioned(
-            bottom: 16,
-            left: 16,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.7),
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(Icons.play_circle_outline, color: Colors.white, size: 16),
-                  const SizedBox(width: 4),
-                  Text(
-                    '비디오',
-                    style: const TextStyle(color: Colors.white, fontSize: 12),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
+    return VideoPlayerWidget(
+      videoUrl: content.contentUrl,
+      thumbnailUrl: content.thumbnailUrl,
     );
   }
 

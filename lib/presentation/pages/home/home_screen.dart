@@ -25,7 +25,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   void _onCreatorTap(Creator creator) {
-    context.push('/creator/${creator.id}');
+    context.push('/home/creator/${creator.id}');
   }
 
   @override

@@ -97,11 +97,32 @@ service cloud.firestore {
 }
 ```
 
-## Step 7: Run the App
+## Step 7: 패키지 설치 및 설정 완료
 
-1. Run `flutter pub get` to ensure all dependencies are installed
-2. Run `flutter run` to start the app
-3. The app should now connect to Firebase instead of using mock data
+1. **Flutter 패키지 설치**:
+   ```bash
+   flutter pub get
+   ```
+
+2. **Firebase 관련 코드 주석 해제**:
+   - `lib/main.dart`: Firebase 초기화 코드 주석 해제
+   - `lib/presentation/providers/repository_providers.dart`: Firebase import 및 사용 주석 해제
+
+3. **앱 실행**:
+   ```bash
+   flutter run
+   ```
+
+4. 앱이 이제 Mock 데이터 대신 Firebase에 연결됩니다.
+
+## Step 8: 현재 상태 (임시 Mock 사용 중)
+
+⚠️ **현재는 Firebase 패키지 의존성 문제로 인해 임시로 Mock 데이터를 사용하고 있습니다.**
+
+Firebase를 활성화하려면:
+1. 터미널에서 `flutter pub get` 실행
+2. `lib/main.dart`에서 Firebase 초기화 코드 주석 해제
+3. `lib/presentation/providers/repository_providers.dart`에서 FirebaseContentRepository 사용으로 변경
 
 ## Troubleshooting
 

@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart'; // Firebase 패키지 설치 후 주석 해제
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:creator_platform_demo/domain/entities/content.dart';
 
@@ -29,26 +29,27 @@ class ContentModel with _$ContentModel {
   }) = _ContentModel;
 
   factory ContentModel.fromJson(Map<String, dynamic> json) {
-    // Handle Firebase Timestamp conversion
+    // Mock 데이터용 간단한 JSON 변환 (Firebase 미사용 시)
     final Map<String, dynamic> processedJson = Map<String, dynamic>.from(json);
     
-    // Convert Timestamps to DateTime
-    if (processedJson['createdAt'] is Timestamp) {
-      processedJson['createdAt'] = (processedJson['createdAt'] as Timestamp).toDate().toIso8601String();
-    }
-    if (processedJson['publishedAt'] is Timestamp) {
-      processedJson['publishedAt'] = (processedJson['publishedAt'] as Timestamp).toDate().toIso8601String();
-    }
-    if (processedJson['updatedAt'] is Timestamp) {
-      processedJson['updatedAt'] = (processedJson['updatedAt'] as Timestamp).toDate().toIso8601String();
-    }
+    // TODO: Firebase 패키지 설치 후 주석 해제
+    // Handle Firebase Timestamp conversion
+    // if (processedJson['createdAt'] is Timestamp) {
+    //   processedJson['createdAt'] = (processedJson['createdAt'] as Timestamp).toDate().toIso8601String();
+    // }
+    // if (processedJson['publishedAt'] is Timestamp) {
+    //   processedJson['publishedAt'] = (processedJson['publishedAt'] as Timestamp).toDate().toIso8601String();
+    // }
+    // if (processedJson['updatedAt'] is Timestamp) {
+    //   processedJson['updatedAt'] = (processedJson['updatedAt'] as Timestamp).toDate().toIso8601String();
+    // }
     
-    // Convert ContentType string to enum
+    // Convert ContentType string to enum (for both Mock and Firebase)
     if (processedJson['type'] is String) {
       processedJson['type'] = _stringToContentType(processedJson['type'] as String).name;
     }
     
-    // Convert visibility string to enum
+    // Convert visibility string to enum (for both Mock and Firebase)
     if (processedJson['visibility'] is String) {
       processedJson['visibility'] = _stringToContentVisibility(processedJson['visibility'] as String).name;
     }
@@ -112,8 +113,8 @@ ContentType _stringToContentType(String type) {
       return ContentType.article;
     case 'audio':
       return ContentType.audio;
-    case 'stream':
-      return ContentType.stream;
+    case 'text':
+      return ContentType.text;
     default:
       return ContentType.video;
   }
@@ -126,9 +127,9 @@ ContentVisibility _stringToContentVisibility(String visibility) {
     case 'subscribersonly':
     case 'subscribers_only':
       return ContentVisibility.subscribersOnly;
-    case 'tieronly':
-    case 'tier_only':
-      return ContentVisibility.tierOnly;
+    case 'tierspecific':
+    case 'tier_specific':
+      return ContentVisibility.tierSpecific;
     default:
       return ContentVisibility.public;
   }

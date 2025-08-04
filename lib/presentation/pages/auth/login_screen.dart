@@ -14,8 +14,8 @@ class LoginScreen extends ConsumerStatefulWidget {
 
 class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final _emailController = TextEditingController(text: 'john@example.com');
+  final _passwordController = TextEditingController(text: 'password123');
   bool _isPasswordVisible = false;
 
   @override
@@ -145,39 +145,46 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           const SizedBox(height: 8),
 
                           // Demo Account Info
-                          Card(
-                            color: Theme.of(context).colorScheme.surfaceContainerHighest,
-                            child: Padding(
-                              padding: const EdgeInsets.all(12),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.info_outline,
-                                        size: 16,
-                                        color: Theme.of(context).colorScheme.primary,
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Text(
-                                        '데모 계정',
-                                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                                          fontWeight: FontWeight.bold,
-                                          color: Theme.of(context).colorScheme.primary,
+                          InkWell(
+                            onTap: () {
+                              // 데모 계정 정보로 자동 채우기
+                              _emailController.text = 'john@example.com';
+                              _passwordController.text = 'password123';
+                            },
+                            borderRadius: BorderRadius.circular(12),
+                            child: Card(
+                              color: Theme.of(context).colorScheme.primaryContainer,
+                              child: Padding(
+                                padding: const EdgeInsets.all(12),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.info_outline,
+                                          size: 16,
+                                          color: Theme.of(context).colorScheme.onPrimaryContainer,
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    '이메일: john@example.com\n비밀번호: password123',
-                                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                                      fontFamily: 'monospace',
+                                        const SizedBox(width: 8),
+                                        Text(
+                                          '데모 계정으로 로그인',
+                                          style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                                            fontWeight: FontWeight.bold,
+                                            color: Theme.of(context).colorScheme.onPrimaryContainer,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                ],
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      '데모 계정 정보가 자동으로 입력되어 있습니다',
+                                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                        color: Theme.of(context).colorScheme.onPrimaryContainer,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),

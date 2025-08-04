@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'content.freezed.dart';
 part 'content.g.dart';
 
-enum ContentType { image, video, text, audio }
+enum ContentType { image, video, text, audio, article }
 enum ContentVisibility { public, subscribersOnly, tierSpecific }
 
 @freezed
@@ -21,6 +21,10 @@ class Content with _$Content {
     required int likeCount,
     required int viewCount,
     required int commentCount,
+    required bool isPublic,
+    required int likes,
+    required int views,
+    required DateTime createdAt,
     required DateTime publishedAt,
     DateTime? updatedAt,
   }) = _Content;

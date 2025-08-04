@@ -13,12 +13,15 @@ class Subscription with _$Subscription {
     required String creatorId,
     required String tierId,
     required String tierName,
+    required String planId,
     required int price,
+    required int amount,
     required SubscriptionStatus status,
     required DateTime startDate,
     DateTime? endDate,
     DateTime? cancelledAt,
     required DateTime createdAt,
+    required DateTime updatedAt,
   }) = _Subscription;
   
   factory Subscription.fromJson(Map<String, dynamic> json) => _$SubscriptionFromJson(json);

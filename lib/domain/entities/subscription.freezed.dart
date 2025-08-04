@@ -25,12 +25,15 @@ mixin _$Subscription {
   String get creatorId => throw _privateConstructorUsedError;
   String get tierId => throw _privateConstructorUsedError;
   String get tierName => throw _privateConstructorUsedError;
+  String get planId => throw _privateConstructorUsedError;
   int get price => throw _privateConstructorUsedError;
+  int get amount => throw _privateConstructorUsedError;
   SubscriptionStatus get status => throw _privateConstructorUsedError;
   DateTime get startDate => throw _privateConstructorUsedError;
   DateTime? get endDate => throw _privateConstructorUsedError;
   DateTime? get cancelledAt => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
+  DateTime get updatedAt => throw _privateConstructorUsedError;
 
   /// Serializes this Subscription to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -54,12 +57,15 @@ abstract class $SubscriptionCopyWith<$Res> {
       String creatorId,
       String tierId,
       String tierName,
+      String planId,
       int price,
+      int amount,
       SubscriptionStatus status,
       DateTime startDate,
       DateTime? endDate,
       DateTime? cancelledAt,
-      DateTime createdAt});
+      DateTime createdAt,
+      DateTime updatedAt});
 }
 
 /// @nodoc
@@ -82,12 +88,15 @@ class _$SubscriptionCopyWithImpl<$Res, $Val extends Subscription>
     Object? creatorId = null,
     Object? tierId = null,
     Object? tierName = null,
+    Object? planId = null,
     Object? price = null,
+    Object? amount = null,
     Object? status = null,
     Object? startDate = null,
     Object? endDate = freezed,
     Object? cancelledAt = freezed,
     Object? createdAt = null,
+    Object? updatedAt = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -110,9 +119,17 @@ class _$SubscriptionCopyWithImpl<$Res, $Val extends Subscription>
           ? _value.tierName
           : tierName // ignore: cast_nullable_to_non_nullable
               as String,
+      planId: null == planId
+          ? _value.planId
+          : planId // ignore: cast_nullable_to_non_nullable
+              as String,
       price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
+              as int,
+      amount: null == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
               as int,
       status: null == status
           ? _value.status
@@ -134,6 +151,10 @@ class _$SubscriptionCopyWithImpl<$Res, $Val extends Subscription>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ) as $Val);
   }
 }
@@ -152,12 +173,15 @@ abstract class _$$SubscriptionImplCopyWith<$Res>
       String creatorId,
       String tierId,
       String tierName,
+      String planId,
       int price,
+      int amount,
       SubscriptionStatus status,
       DateTime startDate,
       DateTime? endDate,
       DateTime? cancelledAt,
-      DateTime createdAt});
+      DateTime createdAt,
+      DateTime updatedAt});
 }
 
 /// @nodoc
@@ -178,12 +202,15 @@ class __$$SubscriptionImplCopyWithImpl<$Res>
     Object? creatorId = null,
     Object? tierId = null,
     Object? tierName = null,
+    Object? planId = null,
     Object? price = null,
+    Object? amount = null,
     Object? status = null,
     Object? startDate = null,
     Object? endDate = freezed,
     Object? cancelledAt = freezed,
     Object? createdAt = null,
+    Object? updatedAt = null,
   }) {
     return _then(_$SubscriptionImpl(
       id: null == id
@@ -206,9 +233,17 @@ class __$$SubscriptionImplCopyWithImpl<$Res>
           ? _value.tierName
           : tierName // ignore: cast_nullable_to_non_nullable
               as String,
+      planId: null == planId
+          ? _value.planId
+          : planId // ignore: cast_nullable_to_non_nullable
+              as String,
       price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
+              as int,
+      amount: null == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
               as int,
       status: null == status
           ? _value.status
@@ -230,6 +265,10 @@ class __$$SubscriptionImplCopyWithImpl<$Res>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -243,12 +282,15 @@ class _$SubscriptionImpl implements _Subscription {
       required this.creatorId,
       required this.tierId,
       required this.tierName,
+      required this.planId,
       required this.price,
+      required this.amount,
       required this.status,
       required this.startDate,
       this.endDate,
       this.cancelledAt,
-      required this.createdAt});
+      required this.createdAt,
+      required this.updatedAt});
 
   factory _$SubscriptionImpl.fromJson(Map<String, dynamic> json) =>
       _$$SubscriptionImplFromJson(json);
@@ -264,7 +306,11 @@ class _$SubscriptionImpl implements _Subscription {
   @override
   final String tierName;
   @override
+  final String planId;
+  @override
   final int price;
+  @override
+  final int amount;
   @override
   final SubscriptionStatus status;
   @override
@@ -275,10 +321,12 @@ class _$SubscriptionImpl implements _Subscription {
   final DateTime? cancelledAt;
   @override
   final DateTime createdAt;
+  @override
+  final DateTime updatedAt;
 
   @override
   String toString() {
-    return 'Subscription(id: $id, userId: $userId, creatorId: $creatorId, tierId: $tierId, tierName: $tierName, price: $price, status: $status, startDate: $startDate, endDate: $endDate, cancelledAt: $cancelledAt, createdAt: $createdAt)';
+    return 'Subscription(id: $id, userId: $userId, creatorId: $creatorId, tierId: $tierId, tierName: $tierName, planId: $planId, price: $price, amount: $amount, status: $status, startDate: $startDate, endDate: $endDate, cancelledAt: $cancelledAt, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -293,7 +341,9 @@ class _$SubscriptionImpl implements _Subscription {
             (identical(other.tierId, tierId) || other.tierId == tierId) &&
             (identical(other.tierName, tierName) ||
                 other.tierName == tierName) &&
+            (identical(other.planId, planId) || other.planId == planId) &&
             (identical(other.price, price) || other.price == price) &&
+            (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.startDate, startDate) ||
                 other.startDate == startDate) &&
@@ -301,13 +351,29 @@ class _$SubscriptionImpl implements _Subscription {
             (identical(other.cancelledAt, cancelledAt) ||
                 other.cancelledAt == cancelledAt) &&
             (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt));
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, userId, creatorId, tierId,
-      tierName, price, status, startDate, endDate, cancelledAt, createdAt);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      userId,
+      creatorId,
+      tierId,
+      tierName,
+      planId,
+      price,
+      amount,
+      status,
+      startDate,
+      endDate,
+      cancelledAt,
+      createdAt,
+      updatedAt);
 
   /// Create a copy of Subscription
   /// with the given fields replaced by the non-null parameter values.
@@ -332,12 +398,15 @@ abstract class _Subscription implements Subscription {
       required final String creatorId,
       required final String tierId,
       required final String tierName,
+      required final String planId,
       required final int price,
+      required final int amount,
       required final SubscriptionStatus status,
       required final DateTime startDate,
       final DateTime? endDate,
       final DateTime? cancelledAt,
-      required final DateTime createdAt}) = _$SubscriptionImpl;
+      required final DateTime createdAt,
+      required final DateTime updatedAt}) = _$SubscriptionImpl;
 
   factory _Subscription.fromJson(Map<String, dynamic> json) =
       _$SubscriptionImpl.fromJson;
@@ -353,7 +422,11 @@ abstract class _Subscription implements Subscription {
   @override
   String get tierName;
   @override
+  String get planId;
+  @override
   int get price;
+  @override
+  int get amount;
   @override
   SubscriptionStatus get status;
   @override
@@ -364,6 +437,8 @@ abstract class _Subscription implements Subscription {
   DateTime? get cancelledAt;
   @override
   DateTime get createdAt;
+  @override
+  DateTime get updatedAt;
 
   /// Create a copy of Subscription
   /// with the given fields replaced by the non-null parameter values.

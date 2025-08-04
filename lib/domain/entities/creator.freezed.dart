@@ -25,11 +25,14 @@ mixin _$Creator {
   String get displayName => throw _privateConstructorUsedError;
   String get profileImageUrl => throw _privateConstructorUsedError;
   String? get coverImageUrl => throw _privateConstructorUsedError;
+  String? get bannerImageUrl => throw _privateConstructorUsedError;
   String get bio => throw _privateConstructorUsedError;
   String get category => throw _privateConstructorUsedError;
   int get subscriberCount => throw _privateConstructorUsedError;
   int get contentCount => throw _privateConstructorUsedError;
   List<SubscriptionTier> get tiers => throw _privateConstructorUsedError;
+  int get subscriptionPrice => throw _privateConstructorUsedError;
+  double get rating => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
 
@@ -53,11 +56,14 @@ abstract class $CreatorCopyWith<$Res> {
       String displayName,
       String profileImageUrl,
       String? coverImageUrl,
+      String? bannerImageUrl,
       String bio,
       String category,
       int subscriberCount,
       int contentCount,
       List<SubscriptionTier> tiers,
+      int subscriptionPrice,
+      double rating,
       DateTime createdAt,
       DateTime? updatedAt});
 }
@@ -82,11 +88,14 @@ class _$CreatorCopyWithImpl<$Res, $Val extends Creator>
     Object? displayName = null,
     Object? profileImageUrl = null,
     Object? coverImageUrl = freezed,
+    Object? bannerImageUrl = freezed,
     Object? bio = null,
     Object? category = null,
     Object? subscriberCount = null,
     Object? contentCount = null,
     Object? tiers = null,
+    Object? subscriptionPrice = null,
+    Object? rating = null,
     Object? createdAt = null,
     Object? updatedAt = freezed,
   }) {
@@ -111,6 +120,10 @@ class _$CreatorCopyWithImpl<$Res, $Val extends Creator>
           ? _value.coverImageUrl
           : coverImageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
+      bannerImageUrl: freezed == bannerImageUrl
+          ? _value.bannerImageUrl
+          : bannerImageUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       bio: null == bio
           ? _value.bio
           : bio // ignore: cast_nullable_to_non_nullable
@@ -131,6 +144,14 @@ class _$CreatorCopyWithImpl<$Res, $Val extends Creator>
           ? _value.tiers
           : tiers // ignore: cast_nullable_to_non_nullable
               as List<SubscriptionTier>,
+      subscriptionPrice: null == subscriptionPrice
+          ? _value.subscriptionPrice
+          : subscriptionPrice // ignore: cast_nullable_to_non_nullable
+              as int,
+      rating: null == rating
+          ? _value.rating
+          : rating // ignore: cast_nullable_to_non_nullable
+              as double,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -156,11 +177,14 @@ abstract class _$$CreatorImplCopyWith<$Res> implements $CreatorCopyWith<$Res> {
       String displayName,
       String profileImageUrl,
       String? coverImageUrl,
+      String? bannerImageUrl,
       String bio,
       String category,
       int subscriberCount,
       int contentCount,
       List<SubscriptionTier> tiers,
+      int subscriptionPrice,
+      double rating,
       DateTime createdAt,
       DateTime? updatedAt});
 }
@@ -183,11 +207,14 @@ class __$$CreatorImplCopyWithImpl<$Res>
     Object? displayName = null,
     Object? profileImageUrl = null,
     Object? coverImageUrl = freezed,
+    Object? bannerImageUrl = freezed,
     Object? bio = null,
     Object? category = null,
     Object? subscriberCount = null,
     Object? contentCount = null,
     Object? tiers = null,
+    Object? subscriptionPrice = null,
+    Object? rating = null,
     Object? createdAt = null,
     Object? updatedAt = freezed,
   }) {
@@ -212,6 +239,10 @@ class __$$CreatorImplCopyWithImpl<$Res>
           ? _value.coverImageUrl
           : coverImageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
+      bannerImageUrl: freezed == bannerImageUrl
+          ? _value.bannerImageUrl
+          : bannerImageUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       bio: null == bio
           ? _value.bio
           : bio // ignore: cast_nullable_to_non_nullable
@@ -232,6 +263,14 @@ class __$$CreatorImplCopyWithImpl<$Res>
           ? _value._tiers
           : tiers // ignore: cast_nullable_to_non_nullable
               as List<SubscriptionTier>,
+      subscriptionPrice: null == subscriptionPrice
+          ? _value.subscriptionPrice
+          : subscriptionPrice // ignore: cast_nullable_to_non_nullable
+              as int,
+      rating: null == rating
+          ? _value.rating
+          : rating // ignore: cast_nullable_to_non_nullable
+              as double,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -253,11 +292,14 @@ class _$CreatorImpl implements _Creator {
       required this.displayName,
       required this.profileImageUrl,
       this.coverImageUrl,
+      this.bannerImageUrl,
       required this.bio,
       required this.category,
       required this.subscriberCount,
       required this.contentCount,
       required final List<SubscriptionTier> tiers,
+      required this.subscriptionPrice,
+      required this.rating,
       required this.createdAt,
       this.updatedAt})
       : _tiers = tiers;
@@ -276,6 +318,8 @@ class _$CreatorImpl implements _Creator {
   @override
   final String? coverImageUrl;
   @override
+  final String? bannerImageUrl;
+  @override
   final String bio;
   @override
   final String category;
@@ -292,13 +336,17 @@ class _$CreatorImpl implements _Creator {
   }
 
   @override
+  final int subscriptionPrice;
+  @override
+  final double rating;
+  @override
   final DateTime createdAt;
   @override
   final DateTime? updatedAt;
 
   @override
   String toString() {
-    return 'Creator(id: $id, userId: $userId, displayName: $displayName, profileImageUrl: $profileImageUrl, coverImageUrl: $coverImageUrl, bio: $bio, category: $category, subscriberCount: $subscriberCount, contentCount: $contentCount, tiers: $tiers, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'Creator(id: $id, userId: $userId, displayName: $displayName, profileImageUrl: $profileImageUrl, coverImageUrl: $coverImageUrl, bannerImageUrl: $bannerImageUrl, bio: $bio, category: $category, subscriberCount: $subscriberCount, contentCount: $contentCount, tiers: $tiers, subscriptionPrice: $subscriptionPrice, rating: $rating, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -314,6 +362,8 @@ class _$CreatorImpl implements _Creator {
                 other.profileImageUrl == profileImageUrl) &&
             (identical(other.coverImageUrl, coverImageUrl) ||
                 other.coverImageUrl == coverImageUrl) &&
+            (identical(other.bannerImageUrl, bannerImageUrl) ||
+                other.bannerImageUrl == bannerImageUrl) &&
             (identical(other.bio, bio) || other.bio == bio) &&
             (identical(other.category, category) ||
                 other.category == category) &&
@@ -322,6 +372,9 @@ class _$CreatorImpl implements _Creator {
             (identical(other.contentCount, contentCount) ||
                 other.contentCount == contentCount) &&
             const DeepCollectionEquality().equals(other._tiers, _tiers) &&
+            (identical(other.subscriptionPrice, subscriptionPrice) ||
+                other.subscriptionPrice == subscriptionPrice) &&
+            (identical(other.rating, rating) || other.rating == rating) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -337,11 +390,14 @@ class _$CreatorImpl implements _Creator {
       displayName,
       profileImageUrl,
       coverImageUrl,
+      bannerImageUrl,
       bio,
       category,
       subscriberCount,
       contentCount,
       const DeepCollectionEquality().hash(_tiers),
+      subscriptionPrice,
+      rating,
       createdAt,
       updatedAt);
 
@@ -368,11 +424,14 @@ abstract class _Creator implements Creator {
       required final String displayName,
       required final String profileImageUrl,
       final String? coverImageUrl,
+      final String? bannerImageUrl,
       required final String bio,
       required final String category,
       required final int subscriberCount,
       required final int contentCount,
       required final List<SubscriptionTier> tiers,
+      required final int subscriptionPrice,
+      required final double rating,
       required final DateTime createdAt,
       final DateTime? updatedAt}) = _$CreatorImpl;
 
@@ -389,6 +448,8 @@ abstract class _Creator implements Creator {
   @override
   String? get coverImageUrl;
   @override
+  String? get bannerImageUrl;
+  @override
   String get bio;
   @override
   String get category;
@@ -398,6 +459,10 @@ abstract class _Creator implements Creator {
   int get contentCount;
   @override
   List<SubscriptionTier> get tiers;
+  @override
+  int get subscriptionPrice;
+  @override
+  double get rating;
   @override
   DateTime get createdAt;
   @override

@@ -29,7 +29,7 @@ class SubscriptionModel with _$SubscriptionModel {
     status: subscription.status,
     startDate: subscription.startDate,
     endDate: subscription.endDate,
-    amount: subscription.amount,
+    amount: subscription.amount.toDouble(),
     createdAt: subscription.createdAt,
     updatedAt: subscription.updatedAt,
   );
@@ -40,12 +40,16 @@ extension SubscriptionModelX on SubscriptionModel {
     id: id,
     userId: userId,
     creatorId: creatorId,
+    tierId: '',
+    tierName: '',
     planId: planId,
+    price: amount.toInt(),
+    amount: amount.toInt(),
     status: status,
     startDate: startDate,
     endDate: endDate,
-    amount: amount,
-    createdAt: createdAt,
-    updatedAt: updatedAt,
+    cancelledAt: null,
+    createdAt: createdAt ?? DateTime.now(),
+    updatedAt: updatedAt ?? DateTime.now(),
   );
 }

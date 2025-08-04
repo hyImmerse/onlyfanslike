@@ -13,6 +13,7 @@ _$CreatorImpl _$$CreatorImplFromJson(Map<String, dynamic> json) =>
       displayName: json['displayName'] as String,
       profileImageUrl: json['profileImageUrl'] as String,
       coverImageUrl: json['coverImageUrl'] as String?,
+      bannerImageUrl: json['bannerImageUrl'] as String?,
       bio: json['bio'] as String,
       category: json['category'] as String,
       subscriberCount: (json['subscriberCount'] as num).toInt(),
@@ -20,6 +21,8 @@ _$CreatorImpl _$$CreatorImplFromJson(Map<String, dynamic> json) =>
       tiers: (json['tiers'] as List<dynamic>)
           .map((e) => SubscriptionTier.fromJson(e as Map<String, dynamic>))
           .toList(),
+      subscriptionPrice: (json['subscriptionPrice'] as num).toInt(),
+      rating: (json['rating'] as num).toDouble(),
       createdAt: DateTime.parse(json['createdAt'] as String),
       updatedAt: json['updatedAt'] == null
           ? null
@@ -33,11 +36,14 @@ Map<String, dynamic> _$$CreatorImplToJson(_$CreatorImpl instance) =>
       'displayName': instance.displayName,
       'profileImageUrl': instance.profileImageUrl,
       'coverImageUrl': instance.coverImageUrl,
+      'bannerImageUrl': instance.bannerImageUrl,
       'bio': instance.bio,
       'category': instance.category,
       'subscriberCount': instance.subscriberCount,
       'contentCount': instance.contentCount,
       'tiers': instance.tiers,
+      'subscriptionPrice': instance.subscriptionPrice,
+      'rating': instance.rating,
       'createdAt': instance.createdAt.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
     };

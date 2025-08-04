@@ -32,6 +32,10 @@ mixin _$Content {
   int get likeCount => throw _privateConstructorUsedError;
   int get viewCount => throw _privateConstructorUsedError;
   int get commentCount => throw _privateConstructorUsedError;
+  bool get isPublic => throw _privateConstructorUsedError;
+  int get likes => throw _privateConstructorUsedError;
+  int get views => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
   DateTime get publishedAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
 
@@ -62,6 +66,10 @@ abstract class $ContentCopyWith<$Res> {
       int likeCount,
       int viewCount,
       int commentCount,
+      bool isPublic,
+      int likes,
+      int views,
+      DateTime createdAt,
       DateTime publishedAt,
       DateTime? updatedAt});
 }
@@ -93,6 +101,10 @@ class _$ContentCopyWithImpl<$Res, $Val extends Content>
     Object? likeCount = null,
     Object? viewCount = null,
     Object? commentCount = null,
+    Object? isPublic = null,
+    Object? likes = null,
+    Object? views = null,
+    Object? createdAt = null,
     Object? publishedAt = null,
     Object? updatedAt = freezed,
   }) {
@@ -145,6 +157,22 @@ class _$ContentCopyWithImpl<$Res, $Val extends Content>
           ? _value.commentCount
           : commentCount // ignore: cast_nullable_to_non_nullable
               as int,
+      isPublic: null == isPublic
+          ? _value.isPublic
+          : isPublic // ignore: cast_nullable_to_non_nullable
+              as bool,
+      likes: null == likes
+          ? _value.likes
+          : likes // ignore: cast_nullable_to_non_nullable
+              as int,
+      views: null == views
+          ? _value.views
+          : views // ignore: cast_nullable_to_non_nullable
+              as int,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       publishedAt: null == publishedAt
           ? _value.publishedAt
           : publishedAt // ignore: cast_nullable_to_non_nullable
@@ -177,6 +205,10 @@ abstract class _$$ContentImplCopyWith<$Res> implements $ContentCopyWith<$Res> {
       int likeCount,
       int viewCount,
       int commentCount,
+      bool isPublic,
+      int likes,
+      int views,
+      DateTime createdAt,
       DateTime publishedAt,
       DateTime? updatedAt});
 }
@@ -206,6 +238,10 @@ class __$$ContentImplCopyWithImpl<$Res>
     Object? likeCount = null,
     Object? viewCount = null,
     Object? commentCount = null,
+    Object? isPublic = null,
+    Object? likes = null,
+    Object? views = null,
+    Object? createdAt = null,
     Object? publishedAt = null,
     Object? updatedAt = freezed,
   }) {
@@ -258,6 +294,22 @@ class __$$ContentImplCopyWithImpl<$Res>
           ? _value.commentCount
           : commentCount // ignore: cast_nullable_to_non_nullable
               as int,
+      isPublic: null == isPublic
+          ? _value.isPublic
+          : isPublic // ignore: cast_nullable_to_non_nullable
+              as bool,
+      likes: null == likes
+          ? _value.likes
+          : likes // ignore: cast_nullable_to_non_nullable
+              as int,
+      views: null == views
+          ? _value.views
+          : views // ignore: cast_nullable_to_non_nullable
+              as int,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       publishedAt: null == publishedAt
           ? _value.publishedAt
           : publishedAt // ignore: cast_nullable_to_non_nullable
@@ -286,6 +338,10 @@ class _$ContentImpl implements _Content {
       required this.likeCount,
       required this.viewCount,
       required this.commentCount,
+      required this.isPublic,
+      required this.likes,
+      required this.views,
+      required this.createdAt,
       required this.publishedAt,
       this.updatedAt})
       : _allowedTierIds = allowedTierIds;
@@ -326,13 +382,21 @@ class _$ContentImpl implements _Content {
   @override
   final int commentCount;
   @override
+  final bool isPublic;
+  @override
+  final int likes;
+  @override
+  final int views;
+  @override
+  final DateTime createdAt;
+  @override
   final DateTime publishedAt;
   @override
   final DateTime? updatedAt;
 
   @override
   String toString() {
-    return 'Content(id: $id, creatorId: $creatorId, title: $title, description: $description, type: $type, contentUrl: $contentUrl, thumbnailUrl: $thumbnailUrl, visibility: $visibility, allowedTierIds: $allowedTierIds, likeCount: $likeCount, viewCount: $viewCount, commentCount: $commentCount, publishedAt: $publishedAt, updatedAt: $updatedAt)';
+    return 'Content(id: $id, creatorId: $creatorId, title: $title, description: $description, type: $type, contentUrl: $contentUrl, thumbnailUrl: $thumbnailUrl, visibility: $visibility, allowedTierIds: $allowedTierIds, likeCount: $likeCount, viewCount: $viewCount, commentCount: $commentCount, isPublic: $isPublic, likes: $likes, views: $views, createdAt: $createdAt, publishedAt: $publishedAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -361,6 +425,12 @@ class _$ContentImpl implements _Content {
                 other.viewCount == viewCount) &&
             (identical(other.commentCount, commentCount) ||
                 other.commentCount == commentCount) &&
+            (identical(other.isPublic, isPublic) ||
+                other.isPublic == isPublic) &&
+            (identical(other.likes, likes) || other.likes == likes) &&
+            (identical(other.views, views) || other.views == views) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
             (identical(other.publishedAt, publishedAt) ||
                 other.publishedAt == publishedAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -383,6 +453,10 @@ class _$ContentImpl implements _Content {
       likeCount,
       viewCount,
       commentCount,
+      isPublic,
+      likes,
+      views,
+      createdAt,
       publishedAt,
       updatedAt);
 
@@ -416,6 +490,10 @@ abstract class _Content implements Content {
       required final int likeCount,
       required final int viewCount,
       required final int commentCount,
+      required final bool isPublic,
+      required final int likes,
+      required final int views,
+      required final DateTime createdAt,
       required final DateTime publishedAt,
       final DateTime? updatedAt}) = _$ContentImpl;
 
@@ -445,6 +523,14 @@ abstract class _Content implements Content {
   int get viewCount;
   @override
   int get commentCount;
+  @override
+  bool get isPublic;
+  @override
+  int get likes;
+  @override
+  int get views;
+  @override
+  DateTime get createdAt;
   @override
   DateTime get publishedAt;
   @override

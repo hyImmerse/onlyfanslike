@@ -36,7 +36,7 @@ extension UserModelX on UserModel {
     name: name,
     profileImageUrl: profileImageUrl,
     isCreator: isCreator,
-    createdAt: createdAt,
+    createdAt: createdAt ?? DateTime.now(),
     updatedAt: updatedAt,
   );
 }

@@ -27,10 +27,16 @@ mixin _$ContentModel {
   String get contentUrl => throw _privateConstructorUsedError;
   String get thumbnailUrl => throw _privateConstructorUsedError;
   ContentType get type => throw _privateConstructorUsedError;
+  ContentVisibility get visibility => throw _privateConstructorUsedError;
+  List<String> get allowedTierIds => throw _privateConstructorUsedError;
+  int get likeCount => throw _privateConstructorUsedError;
+  int get viewCount => throw _privateConstructorUsedError;
+  int get commentCount => throw _privateConstructorUsedError;
   bool get isPublic => throw _privateConstructorUsedError;
   int get likes => throw _privateConstructorUsedError;
   int get views => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
+  DateTime? get publishedAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
 
   /// Serializes this ContentModel to a JSON map.
@@ -57,10 +63,16 @@ abstract class $ContentModelCopyWith<$Res> {
       String contentUrl,
       String thumbnailUrl,
       ContentType type,
+      ContentVisibility visibility,
+      List<String> allowedTierIds,
+      int likeCount,
+      int viewCount,
+      int commentCount,
       bool isPublic,
       int likes,
       int views,
       DateTime? createdAt,
+      DateTime? publishedAt,
       DateTime? updatedAt});
 }
 
@@ -86,10 +98,16 @@ class _$ContentModelCopyWithImpl<$Res, $Val extends ContentModel>
     Object? contentUrl = null,
     Object? thumbnailUrl = null,
     Object? type = null,
+    Object? visibility = null,
+    Object? allowedTierIds = null,
+    Object? likeCount = null,
+    Object? viewCount = null,
+    Object? commentCount = null,
     Object? isPublic = null,
     Object? likes = null,
     Object? views = null,
     Object? createdAt = freezed,
+    Object? publishedAt = freezed,
     Object? updatedAt = freezed,
   }) {
     return _then(_value.copyWith(
@@ -121,6 +139,26 @@ class _$ContentModelCopyWithImpl<$Res, $Val extends ContentModel>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as ContentType,
+      visibility: null == visibility
+          ? _value.visibility
+          : visibility // ignore: cast_nullable_to_non_nullable
+              as ContentVisibility,
+      allowedTierIds: null == allowedTierIds
+          ? _value.allowedTierIds
+          : allowedTierIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      likeCount: null == likeCount
+          ? _value.likeCount
+          : likeCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      viewCount: null == viewCount
+          ? _value.viewCount
+          : viewCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      commentCount: null == commentCount
+          ? _value.commentCount
+          : commentCount // ignore: cast_nullable_to_non_nullable
+              as int,
       isPublic: null == isPublic
           ? _value.isPublic
           : isPublic // ignore: cast_nullable_to_non_nullable
@@ -136,6 +174,10 @@ class _$ContentModelCopyWithImpl<$Res, $Val extends ContentModel>
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      publishedAt: freezed == publishedAt
+          ? _value.publishedAt
+          : publishedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
       updatedAt: freezed == updatedAt
           ? _value.updatedAt
@@ -161,10 +203,16 @@ abstract class _$$ContentModelImplCopyWith<$Res>
       String contentUrl,
       String thumbnailUrl,
       ContentType type,
+      ContentVisibility visibility,
+      List<String> allowedTierIds,
+      int likeCount,
+      int viewCount,
+      int commentCount,
       bool isPublic,
       int likes,
       int views,
       DateTime? createdAt,
+      DateTime? publishedAt,
       DateTime? updatedAt});
 }
 
@@ -188,10 +236,16 @@ class __$$ContentModelImplCopyWithImpl<$Res>
     Object? contentUrl = null,
     Object? thumbnailUrl = null,
     Object? type = null,
+    Object? visibility = null,
+    Object? allowedTierIds = null,
+    Object? likeCount = null,
+    Object? viewCount = null,
+    Object? commentCount = null,
     Object? isPublic = null,
     Object? likes = null,
     Object? views = null,
     Object? createdAt = freezed,
+    Object? publishedAt = freezed,
     Object? updatedAt = freezed,
   }) {
     return _then(_$ContentModelImpl(
@@ -223,6 +277,26 @@ class __$$ContentModelImplCopyWithImpl<$Res>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as ContentType,
+      visibility: null == visibility
+          ? _value.visibility
+          : visibility // ignore: cast_nullable_to_non_nullable
+              as ContentVisibility,
+      allowedTierIds: null == allowedTierIds
+          ? _value._allowedTierIds
+          : allowedTierIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      likeCount: null == likeCount
+          ? _value.likeCount
+          : likeCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      viewCount: null == viewCount
+          ? _value.viewCount
+          : viewCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      commentCount: null == commentCount
+          ? _value.commentCount
+          : commentCount // ignore: cast_nullable_to_non_nullable
+              as int,
       isPublic: null == isPublic
           ? _value.isPublic
           : isPublic // ignore: cast_nullable_to_non_nullable
@@ -238,6 +312,10 @@ class __$$ContentModelImplCopyWithImpl<$Res>
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      publishedAt: freezed == publishedAt
+          ? _value.publishedAt
+          : publishedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
       updatedAt: freezed == updatedAt
           ? _value.updatedAt
@@ -258,11 +336,18 @@ class _$ContentModelImpl implements _ContentModel {
       required this.contentUrl,
       required this.thumbnailUrl,
       required this.type,
-      this.isPublic = false,
+      this.visibility = ContentVisibility.public,
+      final List<String> allowedTierIds = const [],
+      this.likeCount = 0,
+      this.viewCount = 0,
+      this.commentCount = 0,
+      this.isPublic = true,
       this.likes = 0,
       this.views = 0,
       this.createdAt,
-      this.updatedAt});
+      this.publishedAt,
+      this.updatedAt})
+      : _allowedTierIds = allowedTierIds;
 
   factory _$ContentModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$ContentModelImplFromJson(json);
@@ -283,6 +368,27 @@ class _$ContentModelImpl implements _ContentModel {
   final ContentType type;
   @override
   @JsonKey()
+  final ContentVisibility visibility;
+  final List<String> _allowedTierIds;
+  @override
+  @JsonKey()
+  List<String> get allowedTierIds {
+    if (_allowedTierIds is EqualUnmodifiableListView) return _allowedTierIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_allowedTierIds);
+  }
+
+  @override
+  @JsonKey()
+  final int likeCount;
+  @override
+  @JsonKey()
+  final int viewCount;
+  @override
+  @JsonKey()
+  final int commentCount;
+  @override
+  @JsonKey()
   final bool isPublic;
   @override
   @JsonKey()
@@ -293,11 +399,13 @@ class _$ContentModelImpl implements _ContentModel {
   @override
   final DateTime? createdAt;
   @override
+  final DateTime? publishedAt;
+  @override
   final DateTime? updatedAt;
 
   @override
   String toString() {
-    return 'ContentModel(id: $id, creatorId: $creatorId, title: $title, description: $description, contentUrl: $contentUrl, thumbnailUrl: $thumbnailUrl, type: $type, isPublic: $isPublic, likes: $likes, views: $views, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'ContentModel(id: $id, creatorId: $creatorId, title: $title, description: $description, contentUrl: $contentUrl, thumbnailUrl: $thumbnailUrl, type: $type, visibility: $visibility, allowedTierIds: $allowedTierIds, likeCount: $likeCount, viewCount: $viewCount, commentCount: $commentCount, isPublic: $isPublic, likes: $likes, views: $views, createdAt: $createdAt, publishedAt: $publishedAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -316,12 +424,24 @@ class _$ContentModelImpl implements _ContentModel {
             (identical(other.thumbnailUrl, thumbnailUrl) ||
                 other.thumbnailUrl == thumbnailUrl) &&
             (identical(other.type, type) || other.type == type) &&
+            (identical(other.visibility, visibility) ||
+                other.visibility == visibility) &&
+            const DeepCollectionEquality()
+                .equals(other._allowedTierIds, _allowedTierIds) &&
+            (identical(other.likeCount, likeCount) ||
+                other.likeCount == likeCount) &&
+            (identical(other.viewCount, viewCount) ||
+                other.viewCount == viewCount) &&
+            (identical(other.commentCount, commentCount) ||
+                other.commentCount == commentCount) &&
             (identical(other.isPublic, isPublic) ||
                 other.isPublic == isPublic) &&
             (identical(other.likes, likes) || other.likes == likes) &&
             (identical(other.views, views) || other.views == views) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
+            (identical(other.publishedAt, publishedAt) ||
+                other.publishedAt == publishedAt) &&
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt));
   }
@@ -337,10 +457,16 @@ class _$ContentModelImpl implements _ContentModel {
       contentUrl,
       thumbnailUrl,
       type,
+      visibility,
+      const DeepCollectionEquality().hash(_allowedTierIds),
+      likeCount,
+      viewCount,
+      commentCount,
       isPublic,
       likes,
       views,
       createdAt,
+      publishedAt,
       updatedAt);
 
   /// Create a copy of ContentModel
@@ -368,10 +494,16 @@ abstract class _ContentModel implements ContentModel {
       required final String contentUrl,
       required final String thumbnailUrl,
       required final ContentType type,
+      final ContentVisibility visibility,
+      final List<String> allowedTierIds,
+      final int likeCount,
+      final int viewCount,
+      final int commentCount,
       final bool isPublic,
       final int likes,
       final int views,
       final DateTime? createdAt,
+      final DateTime? publishedAt,
       final DateTime? updatedAt}) = _$ContentModelImpl;
 
   factory _ContentModel.fromJson(Map<String, dynamic> json) =
@@ -392,6 +524,16 @@ abstract class _ContentModel implements ContentModel {
   @override
   ContentType get type;
   @override
+  ContentVisibility get visibility;
+  @override
+  List<String> get allowedTierIds;
+  @override
+  int get likeCount;
+  @override
+  int get viewCount;
+  @override
+  int get commentCount;
+  @override
   bool get isPublic;
   @override
   int get likes;
@@ -399,6 +541,8 @@ abstract class _ContentModel implements ContentModel {
   int get views;
   @override
   DateTime? get createdAt;
+  @override
+  DateTime? get publishedAt;
   @override
   DateTime? get updatedAt;
 

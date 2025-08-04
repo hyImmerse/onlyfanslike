@@ -13,7 +13,9 @@ _$SubscriptionImpl _$$SubscriptionImplFromJson(Map<String, dynamic> json) =>
       creatorId: json['creatorId'] as String,
       tierId: json['tierId'] as String,
       tierName: json['tierName'] as String,
+      planId: json['planId'] as String,
       price: (json['price'] as num).toInt(),
+      amount: (json['amount'] as num).toInt(),
       status: $enumDecode(_$SubscriptionStatusEnumMap, json['status']),
       startDate: DateTime.parse(json['startDate'] as String),
       endDate: json['endDate'] == null
@@ -23,6 +25,7 @@ _$SubscriptionImpl _$$SubscriptionImplFromJson(Map<String, dynamic> json) =>
           ? null
           : DateTime.parse(json['cancelledAt'] as String),
       createdAt: DateTime.parse(json['createdAt'] as String),
+      updatedAt: DateTime.parse(json['updatedAt'] as String),
     );
 
 Map<String, dynamic> _$$SubscriptionImplToJson(_$SubscriptionImpl instance) =>
@@ -32,12 +35,15 @@ Map<String, dynamic> _$$SubscriptionImplToJson(_$SubscriptionImpl instance) =>
       'creatorId': instance.creatorId,
       'tierId': instance.tierId,
       'tierName': instance.tierName,
+      'planId': instance.planId,
       'price': instance.price,
+      'amount': instance.amount,
       'status': _$SubscriptionStatusEnumMap[instance.status]!,
       'startDate': instance.startDate.toIso8601String(),
       'endDate': instance.endDate?.toIso8601String(),
       'cancelledAt': instance.cancelledAt?.toIso8601String(),
       'createdAt': instance.createdAt.toIso8601String(),
+      'updatedAt': instance.updatedAt.toIso8601String(),
     };
 
 const _$SubscriptionStatusEnumMap = {

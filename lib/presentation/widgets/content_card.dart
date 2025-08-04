@@ -228,6 +228,7 @@ class ContentCard extends StatelessWidget {
       case ContentType.audio:
         return Icons.audio_file_outlined;
       case ContentType.text:
+      case ContentType.article:
         return Icons.article_outlined;
     }
   }
@@ -242,6 +243,7 @@ class ContentCard extends StatelessWidget {
       case ContentType.audio:
         return '오디오';
       case ContentType.text:
+      case ContentType.article:
         return '글';
     }
   }
@@ -402,6 +404,7 @@ class CompactContentCard extends StatelessWidget {
       case ContentType.audio:
         return Icons.audio_file_outlined;
       case ContentType.text:
+      case ContentType.article:
         return Icons.article_outlined;
     }
   }
@@ -415,6 +418,7 @@ class CompactContentCard extends StatelessWidget {
       case ContentType.audio:
         return '오디오';
       case ContentType.text:
+      case ContentType.article:
         return '글';
     }
   }

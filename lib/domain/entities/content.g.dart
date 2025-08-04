@@ -22,6 +22,10 @@ _$ContentImpl _$$ContentImplFromJson(Map<String, dynamic> json) =>
       likeCount: (json['likeCount'] as num).toInt(),
       viewCount: (json['viewCount'] as num).toInt(),
       commentCount: (json['commentCount'] as num).toInt(),
+      isPublic: json['isPublic'] as bool,
+      likes: (json['likes'] as num).toInt(),
+      views: (json['views'] as num).toInt(),
+      createdAt: DateTime.parse(json['createdAt'] as String),
       publishedAt: DateTime.parse(json['publishedAt'] as String),
       updatedAt: json['updatedAt'] == null
           ? null
@@ -42,6 +46,10 @@ Map<String, dynamic> _$$ContentImplToJson(_$ContentImpl instance) =>
       'likeCount': instance.likeCount,
       'viewCount': instance.viewCount,
       'commentCount': instance.commentCount,
+      'isPublic': instance.isPublic,
+      'likes': instance.likes,
+      'views': instance.views,
+      'createdAt': instance.createdAt.toIso8601String(),
       'publishedAt': instance.publishedAt.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
     };
@@ -51,6 +59,7 @@ const _$ContentTypeEnumMap = {
   ContentType.video: 'video',
   ContentType.text: 'text',
   ContentType.audio: 'audio',
+  ContentType.article: 'article',
 };
 
 const _$ContentVisibilityEnumMap = {

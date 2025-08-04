@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:creator_platform_demo/domain/entities/content.dart';
 
@@ -27,7 +28,33 @@ class ContentModel with _$ContentModel {
     DateTime? updatedAt,
   }) = _ContentModel;
 
-  factory ContentModel.fromJson(Map<String, dynamic> json) => _$ContentModelFromJson(json);
+  factory ContentModel.fromJson(Map<String, dynamic> json) {
+    // Handle Firebase Timestamp conversion
+    final Map<String, dynamic> processedJson = Map<String, dynamic>.from(json);
+    
+    // Convert Timestamps to DateTime
+    if (processedJson['createdAt'] is Timestamp) {
+      processedJson['createdAt'] = (processedJson['createdAt'] as Timestamp).toDate().toIso8601String();
+    }
+    if (processedJson['publishedAt'] is Timestamp) {
+      processedJson['publishedAt'] = (processedJson['publishedAt'] as Timestamp).toDate().toIso8601String();
+    }
+    if (processedJson['updatedAt'] is Timestamp) {
+      processedJson['updatedAt'] = (processedJson['updatedAt'] as Timestamp).toDate().toIso8601String();
+    }
+    
+    // Convert ContentType string to enum
+    if (processedJson['type'] is String) {
+      processedJson['type'] = _stringToContentType(processedJson['type'] as String).name;
+    }
+    
+    // Convert visibility string to enum
+    if (processedJson['visibility'] is String) {
+      processedJson['visibility'] = _stringToContentVisibility(processedJson['visibility'] as String).name;
+    }
+    
+    return _$ContentModelFromJson(processedJson);
+  }
 
   factory ContentModel.fromEntity(Content content) => ContentModel(
     id: content.id,
@@ -72,4 +99,37 @@ extension ContentModelX on ContentModel {
     publishedAt: publishedAt ?? DateTime.now(),
     updatedAt: updatedAt,
   );
+}
+
+// Helper functions for Firebase conversion
+ContentType _stringToContentType(String type) {
+  switch (type.toLowerCase()) {
+    case 'video':
+      return ContentType.video;
+    case 'image':
+      return ContentType.image;
+    case 'article':
+      return ContentType.article;
+    case 'audio':
+      return ContentType.audio;
+    case 'stream':
+      return ContentType.stream;
+    default:
+      return ContentType.video;
+  }
+}
+
+ContentVisibility _stringToContentVisibility(String visibility) {
+  switch (visibility.toLowerCase()) {
+    case 'public':
+      return ContentVisibility.public;
+    case 'subscribersonly':
+    case 'subscribers_only':
+      return ContentVisibility.subscribersOnly;
+    case 'tieronly':
+    case 'tier_only':
+      return ContentVisibility.tierOnly;
+    default:
+      return ContentVisibility.public;
+  }
 }

@@ -6,6 +6,7 @@ import 'package:creator_platform_demo/domain/repositories/subscription_repositor
 import 'package:creator_platform_demo/data/repositories/mock_user_repository.dart';
 import 'package:creator_platform_demo/data/repositories/mock_creator_repository.dart';
 import 'package:creator_platform_demo/data/repositories/mock_content_repository.dart';
+import 'package:creator_platform_demo/data/repositories/firebase_content_repository.dart';
 import 'package:creator_platform_demo/data/repositories/mock_subscription_repository.dart';
 
 /// Repository Providers - Centralized repository management
@@ -28,7 +29,10 @@ final creatorRepositoryProvider = Provider<CreatorRepository>((ref) {
 /// Content Repository Provider
 /// Provides access to content-related operations (upload, view, manage content)
 final contentRepositoryProvider = Provider<ContentRepository>((ref) {
-  return MockContentRepository();
+  // Use Firebase implementation instead of Mock
+  return FirebaseContentRepository();
+  // To switch back to mock, uncomment the line below:
+  // return MockContentRepository();
 });
 
 /// Subscription Repository Provider

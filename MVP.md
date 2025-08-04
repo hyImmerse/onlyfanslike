@@ -92,8 +92,8 @@
 # 크리에이터 목록 화면 UI 구현
 /sc:implement "크리에이터 목록 화면 UI - GridView, 크리에이터 카드(이미지, 이름, 구독자 수)" --persona-frontend --c7 --seq
 
-# 크리에이터 프로필 화면 UI 구현
-/sc:implement "크리에이터 프로필 화면 UI - 헤더(프로필 이미지, 정보), 구독 버튼, 콘텐츠 그리드" --persona-frontend --c7 --validate
+# ✅ 크리에이터 프로필 화면 UI 구현 완료 
+# /sc:implement "크리에이터 프로필 화면 UI - 헤더(프로필 이미지, 정보), 구독 버튼, 콘텐츠 그리드" --persona-frontend --c7 --validate
 
 # 구독 화면 UI 구현
 /sc:implement "구독 플랜 선택 화면 UI - 요금제 카드, 혜택 목록, 구독하기 버튼" --persona-frontend --c7 --seq
@@ -160,8 +160,8 @@
 # 2. 크리에이터 목록
 /sc:implement "크리에이터 목록 화면 UI - GridView, 크리에이터 카드(이미지, 이름, 구독자 수)" --persona-frontend --c7 --seq
 
-# 3. 크리에이터 프로필
-/sc:implement "크리에이터 프로필 화면 UI - 헤더(프로필 이미지, 정보), 구독 버튼, 콘텐츠 그리드" --persona-frontend --c7 --validate
+# ✅ 3. 크리에이터 프로필 완료
+# /sc:implement "크리에이터 프로필 화면 UI - 헤더(프로필 이미지, 정보), 구독 버튼, 콘텐츠 그리드" --persona-frontend --c7 --validate
 ```
 
 ## 📋 가이드 시나리오 예시

@@ -358,3 +358,10 @@
   - Entity와 Model 간 필드 불일치 해결
   - index.html deprecated API 업데이트
   - `fvm flutter run -d chrome --hot` 정상 동작 확인
+
+- **Flutter 웹 화면 표시 문제 해결**
+  - index.html Flutter 초기화 코드 수정 (loadEntrypoint 메서드로 변경)
+  - 초기 라우트를 /login으로 변경하여 SharedPreferences 문제 회피
+  - SplashScreen에 try-catch 에러 처리 추가
+  - 모바일 웹 지원을 위한 meta 태그 추가
+  - 테스트용 화면 추가로 디버깅 지원

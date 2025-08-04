@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:go_router/go_router.dart';
 import 'package:creator_platform_demo/domain/entities/creator.dart';
 import 'package:creator_platform_demo/domain/entities/content.dart';
 import 'package:creator_platform_demo/presentation/providers/creator_providers.dart';
@@ -413,41 +414,54 @@ class _CreatorProfileScreenState extends ConsumerState<CreatorProfileScreen> {
 
   void _handleSubscribeAction(bool isCurrentlySubscribed) async {
     if (isCurrentlySubscribed) {
-      // For unsubscribe, we need subscription ID
-      // This is simplified - in real app, you'd get the subscription ID
-      await ref.read(subscriptionActionProvider.notifier).unsubscribe('mock-subscription-id');
+      // Show unsubscribe confirmation
+      final shouldUnsubscribe = await _showUnsubscribeDialog();
+      if (shouldUnsubscribe == true) {
+        await ref.read(subscriptionActionProvider.notifier).unsubscribe('mock-subscription-id');
+        // Refresh subscription status
+        ref.invalidate(subscriptionStatusProvider(widget.creatorId));
+        ref.invalidate(creatorSubscriberCountProvider(widget.creatorId));
+        
+        final actionState = ref.read(subscriptionActionProvider);
+        if (actionState.hasError && actionState.errorMessage != null) {
+          _showSnackBar(actionState.errorMessage!, isError: true);
+        } else if (actionState.successMessage != null) {
+          _showSnackBar(actionState.successMessage!);
+        }
+      }
     } else {
-      // For subscribe, we need plan ID
-      await ref.read(subscriptionActionProvider.notifier).subscribe(widget.creatorId, 'basic-plan');
-    }
-
-    // Refresh subscription status
-    ref.invalidate(subscriptionStatusProvider(widget.creatorId));
-    ref.invalidate(creatorSubscriberCountProvider(widget.creatorId));
-
-    // Show success/error message
-    final actionState = ref.read(subscriptionActionProvider);
-    if (actionState.hasError && actionState.errorMessage != null) {
-      _showSnackBar(actionState.errorMessage!, isError: true);
-    } else if (actionState.successMessage != null) {
-      _showSnackBar(actionState.successMessage!);
+      // Navigate to subscription screen
+      context.push('/home/subscription/${widget.creatorId}');
     }
   }
 
-  void _showContentDetail(Content content) {
-    showDialog(
+  Future<bool?> _showUnsubscribeDialog() {
+    return showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(content.title),
-        content: Text(content.description ?? '설명이 없습니다.'),
+        title: const Text('구독 해지'),
+        content: const Text('정말로 구독을 해지하시겠습니까?\n전용 콘텐츠에 더 이상 접근할 수 없게 됩니다.'),
         actions: [
           TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('닫기'),
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('취소'),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.error,
+              foregroundColor: Theme.of(context).colorScheme.onError,
+            ),
+            child: const Text('해지하기'),
           ),
         ],
       ),
     );
+  }
+
+  void _showContentDetail(Content content) {
+    // Navigate to content viewer screen
+    context.push('/home/content/${content.id}');
   }
 
   void _showSnackBar(String message, {bool isError = false}) {

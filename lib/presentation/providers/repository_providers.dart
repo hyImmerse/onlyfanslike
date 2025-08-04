@@ -1,0 +1,47 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:creator_platform_demo/domain/repositories/user_repository.dart';
+import 'package:creator_platform_demo/domain/repositories/creator_repository.dart';
+import 'package:creator_platform_demo/domain/repositories/content_repository.dart';
+import 'package:creator_platform_demo/domain/repositories/subscription_repository.dart';
+import 'package:creator_platform_demo/data/repositories/mock_user_repository.dart';
+import 'package:creator_platform_demo/data/repositories/mock_creator_repository.dart';
+import 'package:creator_platform_demo/data/repositories/mock_content_repository.dart';
+import 'package:creator_platform_demo/data/repositories/mock_subscription_repository.dart';
+
+/// Repository Providers - Centralized repository management
+/// 
+/// These providers expose repository instances to the entire application.
+/// Using Provider ensures single instances are created and reused throughout the app.
+
+/// User Repository Provider
+/// Provides access to user-related operations (login, register, profile management)
+final userRepositoryProvider = Provider<UserRepository>((ref) {
+  return MockUserRepository();
+});
+
+/// Creator Repository Provider
+/// Provides access to creator-related operations (search, profile, becoming creator)
+final creatorRepositoryProvider = Provider<CreatorRepository>((ref) {
+  return MockCreatorRepository();
+});
+
+/// Content Repository Provider
+/// Provides access to content-related operations (upload, view, manage content)
+final contentRepositoryProvider = Provider<ContentRepository>((ref) {
+  return MockContentRepository();
+});
+
+/// Subscription Repository Provider
+/// Provides access to subscription-related operations (subscribe, unsubscribe, revenue)
+final subscriptionRepositoryProvider = Provider<SubscriptionRepository>((ref) {
+  return MockSubscriptionRepository();
+});
+
+/// Repository Provider Container
+/// Groups all repository providers for easy access and management
+class RepositoryProviders {
+  static final user = userRepositoryProvider;
+  static final creator = creatorRepositoryProvider;
+  static final content = contentRepositoryProvider;
+  static final subscription = subscriptionRepositoryProvider;
+}

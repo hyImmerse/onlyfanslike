@@ -3,14 +3,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'core/router/app_router.dart';
 import 'core/theme/app_theme.dart';
+import 'presentation/providers/provider_observer.dart';
 
 void main() {
-  // Remove # from web URLs
+  // Remove # from web URLs for better web experience
   usePathUrlStrategy();
   
   runApp(
-    const ProviderScope(
-      child: CreatorPlatformApp(),
+    ProviderScope(
+      // Add observer for debugging in development
+      observers: const [AppProviderObserver()],
+      child: const CreatorPlatformApp(),
     ),
   );
 }

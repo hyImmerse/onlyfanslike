@@ -13,10 +13,11 @@ import '../../presentation/pages/subscription/subscription_screen.dart';
 import '../../presentation/pages/content/content_viewer_screen.dart';
 import '../../presentation/pages/search/search_screen.dart';
 import '../../presentation/pages/profile/profile_screen.dart';
+import '../../test_screen.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   return GoRouter(
-    initialLocation: '/',
+    initialLocation: '/login',
     debugLogDiagnostics: true,
     routes: [
       GoRoute(
@@ -24,7 +25,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         name: 'splash',
         pageBuilder: (context, state) => MaterialPage(
           key: state.pageKey,
-          child: const SplashScreen(),
+          child: const TestScreen(), // 임시로 TestScreen으로 변경
         ),
       ),
       GoRoute(

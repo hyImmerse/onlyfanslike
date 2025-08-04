@@ -48,18 +48,24 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   Future<void> _navigateToNext() async {
     await Future.delayed(const Duration(seconds: 2));
     
-    final prefs = await SharedPreferences.getInstance();
-    final hasSeenOnboarding = prefs.getBool(AppConstants.onboardingKey) ?? false;
-    final authToken = prefs.getString(AppConstants.authTokenKey);
-    
-    if (!mounted) return;
-    
-    if (!hasSeenOnboarding) {
-      context.go('/onboarding');
-    } else if (authToken == null) {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final hasSeenOnboarding = prefs.getBool(AppConstants.onboardingKey) ?? false;
+      final authToken = prefs.getString(AppConstants.authTokenKey);
+      
+      if (!mounted) return;
+      
+      if (!hasSeenOnboarding) {
+        context.go('/onboarding');
+      } else if (authToken == null) {
+        context.go('/login');
+      } else {
+        context.go('/home');
+      }
+    } catch (e) {
+      // SharedPreferences 에러 시 로그인 화면으로 이동
+      if (!mounted) return;
       context.go('/login');
-    } else {
-      context.go('/home');
     }
   }
 

@@ -4,12 +4,16 @@ import 'package:creator_platform_demo/domain/repositories/creator_repository.dar
 import 'package:creator_platform_demo/domain/repositories/content_repository.dart';
 import 'package:creator_platform_demo/domain/repositories/subscription_repository.dart';
 import 'package:creator_platform_demo/domain/repositories/payment_history_repository.dart';
+import 'package:creator_platform_demo/domain/repositories/notification_repository.dart';
+import 'package:creator_platform_demo/domain/repositories/chat_repository.dart';
 import 'package:creator_platform_demo/data/repositories/mock_user_repository.dart';
 import 'package:creator_platform_demo/data/repositories/mock_creator_repository.dart';
 import 'package:creator_platform_demo/data/repositories/mock_content_repository.dart';
 // import 'package:creator_platform_demo/data/repositories/firebase_content_repository.dart'; // Firebase 패키지 설치 후 주석 해제
 import 'package:creator_platform_demo/data/repositories/mock_subscription_repository.dart';
 import 'package:creator_platform_demo/data/repositories/mock_payment_history_repository.dart';
+import 'package:creator_platform_demo/data/repositories/mock_notification_repository.dart';
+import 'package:creator_platform_demo/data/repositories/mock_chat_repository.dart';
 
 /// Repository Providers - Centralized repository management
 /// 
@@ -49,6 +53,18 @@ final paymentHistoryRepositoryProvider = Provider<PaymentHistoryRepository>((ref
   return MockPaymentHistoryRepository();
 });
 
+/// Notification Repository Provider
+/// Provides access to notification operations (create, read, settings, statistics)
+final notificationRepositoryProvider = Provider<NotificationRepository>((ref) {
+  return MockNotificationRepository();
+});
+
+/// Chat Repository Provider
+/// Provides access to chat and messaging operations
+final chatRepositoryProvider = Provider<ChatRepository>((ref) {
+  return MockChatRepository();
+});
+
 /// Repository Provider Container
 /// Groups all repository providers for easy access and management
 class RepositoryProviders {
@@ -57,4 +73,6 @@ class RepositoryProviders {
   static final content = contentRepositoryProvider;
   static final subscription = subscriptionRepositoryProvider;
   static final paymentHistory = paymentHistoryRepositoryProvider;
+  static final notification = notificationRepositoryProvider;
+  static final chat = chatRepositoryProvider;
 }

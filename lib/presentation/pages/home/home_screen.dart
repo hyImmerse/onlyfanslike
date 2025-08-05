@@ -51,6 +51,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             actions: [
               IconButton(
                 onPressed: () {
+                  context.push('/conversations');
+                },
+                icon: Badge(
+                  // TODO: Show unread message count
+                  child: Icon(
+                    Icons.chat_bubble_outline,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
+                ),
+                tooltip: '메시지',
+              ),
+              IconButton(
+                onPressed: () {
                   context.push('/profile');
                 },
                 icon: CircleAvatar(

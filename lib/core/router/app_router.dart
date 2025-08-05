@@ -14,6 +14,10 @@ import '../../presentation/pages/content/content_viewer_screen.dart';
 import '../../presentation/pages/search/search_screen.dart';
 import '../../presentation/pages/profile/profile_screen.dart';
 import '../../presentation/pages/payment/payment_history_screen.dart';
+import '../../presentation/screens/notification_screen.dart';
+import '../../presentation/screens/notification_settings_screen.dart';
+import '../../presentation/screens/conversations_screen.dart';
+import '../../presentation/screens/chat_screen.dart';
 import '../../test_screen.dart';
 import '../../presentation/providers/auth_state_notifier.dart';
 import '../../presentation/providers/auth_provider.dart';
@@ -179,6 +183,43 @@ final routerProvider = Provider<GoRouter>((ref) {
               key: state.pageKey,
               child: const PaymentHistoryScreen(),
             ),
+          ),
+          GoRoute(
+            path: '/notifications',
+            name: 'notifications',
+            pageBuilder: (context, state) => MaterialPage(
+              key: state.pageKey,
+              child: const NotificationScreen(),
+            ),
+            routes: [
+              GoRoute(
+                path: 'settings',
+                name: 'notification-settings',
+                pageBuilder: (context, state) => MaterialPage(
+                  key: state.pageKey,
+                  child: const NotificationSettingsScreen(),
+                ),
+              ),
+            ],
+          ),
+          GoRoute(
+            path: '/conversations',
+            name: 'conversations',
+            pageBuilder: (context, state) => MaterialPage(
+              key: state.pageKey,
+              child: const ConversationsScreen(),
+            ),
+          ),
+          GoRoute(
+            path: '/chat/:conversationId',
+            name: 'chat',
+            pageBuilder: (context, state) {
+              final conversationId = state.pathParameters['conversationId']!;
+              return MaterialPage(
+                key: state.pageKey,
+                child: ChatScreen(conversationId: conversationId),
+              );
+            },
           ),
         ],
       ),

@@ -42,3 +42,13 @@ app.*.map.json
 
 # FVM
 .fvm/flutter_sdk
+
+# Claude AI
+.claude/
+
+# VSCode
+.vscode/
+
+# Temporary/disabled files
+*.disabled
+nul

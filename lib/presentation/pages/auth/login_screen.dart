@@ -37,6 +37,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     );
   }
 
+  void _handleSocialLogin(String provider) async {
+    // 데모용 SNS 로그인 시뮬레이션
+    await ref.read(authStateNotifierProvider.notifier).loginWithSocialProvider(provider);
+  }
+
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(authStateNotifierProvider);
@@ -262,6 +267,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           ),
                           const SizedBox(height: 16),
 
+                          // SNS Login Section
+                          _buildSocialLoginSection(context, isLoading),
+                          const SizedBox(height: 16),
+
                           // Sign Up Button
                           OutlinedButton(
                             onPressed: isLoading ? null : () {
@@ -292,6 +301,69 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 ),
               ),
             ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSocialLoginSection(BuildContext context, bool isLoading) {
+    return Column(
+      children: [
+        // Google Login Button
+        _buildSocialLoginButton(
+          context: context,
+          provider: 'Google',
+          icon: Icons.g_mobiledata,
+          backgroundColor: Colors.white,
+          textColor: Colors.black87,
+          borderColor: Colors.grey.shade300,
+          isLoading: isLoading,
+        ),
+        const SizedBox(height: 12),
+        
+        // Facebook Login Button
+        _buildSocialLoginButton(
+          context: context,
+          provider: 'Facebook',
+          icon: Icons.facebook,
+          backgroundColor: const Color(0xFF1877F2),
+          textColor: Colors.white,
+          borderColor: const Color(0xFF1877F2),
+          isLoading: isLoading,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSocialLoginButton({
+    required BuildContext context,
+    required String provider,
+    required IconData icon,
+    required Color backgroundColor,
+    required Color textColor,
+    required Color borderColor,
+    required bool isLoading,
+  }) {
+    return SizedBox(
+      width: double.infinity,
+      height: 48,
+      child: OutlinedButton.icon(
+        onPressed: isLoading ? null : () => _handleSocialLogin(provider),
+        style: OutlinedButton.styleFrom(
+          backgroundColor: backgroundColor,
+          foregroundColor: textColor,
+          side: BorderSide(color: borderColor),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+        icon: Icon(icon, size: 20),
+        label: Text(
+          '$provider로 로그인',
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
           ),
         ),
       ),

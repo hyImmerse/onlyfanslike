@@ -13,6 +13,7 @@ import '../../presentation/pages/subscription/subscription_screen.dart';
 import '../../presentation/pages/content/content_viewer_screen.dart';
 import '../../presentation/pages/search/search_screen.dart';
 import '../../presentation/pages/profile/profile_screen.dart';
+import '../../presentation/pages/payment/payment_history_screen.dart';
 import '../../test_screen.dart';
 import '../../presentation/providers/auth_state_notifier.dart';
 import '../../presentation/providers/auth_provider.dart';
@@ -169,6 +170,14 @@ final routerProvider = Provider<GoRouter>((ref) {
             pageBuilder: (context, state) => MaterialPage(
               key: state.pageKey,
               child: const CreatorDashboardScreen(),
+            ),
+          ),
+          GoRoute(
+            path: '/payment-history',
+            name: 'payment-history',
+            pageBuilder: (context, state) => MaterialPage(
+              key: state.pageKey,
+              child: const PaymentHistoryScreen(),
             ),
           ),
         ],

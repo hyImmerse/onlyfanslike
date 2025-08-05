@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:creator_platform_demo/domain/entities/content.dart';
 
 part 'content_model.freezed.dart';
-part 'content_model.g.dart';
+// part 'content_model.g.dart'; // Temporarily disabled until Firebase setup
 
 @freezed
 class ContentModel with _$ContentModel {
@@ -29,32 +29,27 @@ class ContentModel with _$ContentModel {
   }) = _ContentModel;
 
   factory ContentModel.fromJson(Map<String, dynamic> json) {
-    // Mock 데이터용 간단한 JSON 변환 (Firebase 미사용 시)
-    final Map<String, dynamic> processedJson = Map<String, dynamic>.from(json);
-    
-    // TODO: Firebase 패키지 설치 후 주석 해제
-    // Handle Firebase Timestamp conversion
-    // if (processedJson['createdAt'] is Timestamp) {
-    //   processedJson['createdAt'] = (processedJson['createdAt'] as Timestamp).toDate().toIso8601String();
-    // }
-    // if (processedJson['publishedAt'] is Timestamp) {
-    //   processedJson['publishedAt'] = (processedJson['publishedAt'] as Timestamp).toDate().toIso8601String();
-    // }
-    // if (processedJson['updatedAt'] is Timestamp) {
-    //   processedJson['updatedAt'] = (processedJson['updatedAt'] as Timestamp).toDate().toIso8601String();
-    // }
-    
-    // Convert ContentType string to enum (for both Mock and Firebase)
-    if (processedJson['type'] is String) {
-      processedJson['type'] = _stringToContentType(processedJson['type'] as String).name;
-    }
-    
-    // Convert visibility string to enum (for both Mock and Firebase)
-    if (processedJson['visibility'] is String) {
-      processedJson['visibility'] = _stringToContentVisibility(processedJson['visibility'] as String).name;
-    }
-    
-    return _$ContentModelFromJson(processedJson);
+    // Temporarily use manual parsing until Firebase setup is complete
+    return ContentModel(
+      id: json['id'] as String,
+      creatorId: json['creatorId'] as String,
+      title: json['title'] as String,
+      description: json['description'] as String,
+      contentUrl: json['contentUrl'] as String,
+      thumbnailUrl: json['thumbnailUrl'] as String,
+      type: _stringToContentType(json['type'] as String),
+      visibility: _stringToContentVisibility(json['visibility'] as String? ?? 'public'),
+      allowedTierIds: List<String>.from(json['allowedTierIds'] ?? []),
+      likeCount: json['likeCount'] as int? ?? 0,
+      viewCount: json['viewCount'] as int? ?? 0,
+      commentCount: json['commentCount'] as int? ?? 0,
+      isPublic: json['isPublic'] as bool? ?? true,
+      likes: json['likes'] as int? ?? 0,
+      views: json['views'] as int? ?? 0,
+      createdAt: json['createdAt'] != null ? DateTime.parse(json['createdAt'] as String) : null,
+      publishedAt: json['publishedAt'] != null ? DateTime.parse(json['publishedAt'] as String) : null,
+      updatedAt: json['updatedAt'] != null ? DateTime.parse(json['updatedAt'] as String) : null,
+    );
   }
 
   factory ContentModel.fromEntity(Content content) => ContentModel(

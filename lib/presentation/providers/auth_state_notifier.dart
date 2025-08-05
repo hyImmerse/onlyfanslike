@@ -168,6 +168,41 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     );
   }
 
+  /// Login with social provider (demo simulation)
+  Future<void> loginWithSocialProvider(String provider) async {
+    if (state.isLoading) return;
+
+    try {
+      state = state.copyWith(
+        status: AuthStatus.loading,
+        errorMessage: null,
+      );
+
+      // 데모용 시뮬레이션: 2초 후 성공
+      await Future.delayed(const Duration(seconds: 2));
+      
+      // Mock user for social login
+      final socialUser = User(
+        id: 'social_${provider.toLowerCase()}_user',
+        email: '${provider.toLowerCase()}@example.com',
+        name: '$provider 사용자',
+        isCreator: false,
+        profileImageUrl: null,
+        createdAt: DateTime.now(),
+      );
+      
+      state = AuthState(
+        status: AuthStatus.authenticated,
+        user: socialUser,
+      );
+    } catch (e) {
+      state = AuthState(
+        status: AuthStatus.error,
+        errorMessage: '$provider 로그인에 실패했습니다: ${e.toString()}',
+      );
+    }
+  }
+
   /// Logout current user
   Future<void> logout() async {
     if (state.isLoading) return;

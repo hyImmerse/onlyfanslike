@@ -137,9 +137,29 @@ class SubscriptionActionNotifier extends StateNotifier<SubscriptionActionState> 
   }
 }
 
-/// Creator Revenue Provider
-/// Gets monthly revenue for a creator (for creator dashboard)
-final creatorRevenueProvider = FutureProvider.family<double, String>((ref, creatorId) async {
+/// Creator Revenue Provider (Simple)
+/// Gets monthly revenue for a creator
+final creatorMonthlyRevenueProvider = FutureProvider.family<double, String>((ref, creatorId) async {
   final subscriptionRepository = ref.watch(RepositoryProviders.subscription);
   return await subscriptionRepository.getMonthlyRevenue(creatorId);
+});
+
+/// Creator Revenue Provider (Dashboard)
+/// Gets comprehensive revenue data for creator dashboard
+final creatorRevenueProvider = FutureProvider.family<Map<String, dynamic>, String>((ref, creatorId) async {
+  final subscriptionRepository = ref.watch(RepositoryProviders.subscription);
+  final subscriberCount = await subscriptionRepository.getSubscriberCount(creatorId);
+  final monthlyRevenue = await subscriptionRepository.getMonthlyRevenue(creatorId);
+  
+  // Calculate revenue metrics (assuming 10,000 won per subscription for demo)
+  final totalRevenue = subscriberCount * 10000 * 6; // 6 months average
+  
+  return {
+    'totalRevenue': totalRevenue,
+    'monthlyRevenue': monthlyRevenue.toInt(),
+    'pendingRevenue': (monthlyRevenue * 0.3).toInt(), // 30% as pending
+    'subscriberCount': subscriberCount,
+    'newSubscribersThisMonth': (subscriberCount * 0.2).toInt(), // Mock data
+    'churnRate': 0.05, // 5% churn rate mock
+  };
 });

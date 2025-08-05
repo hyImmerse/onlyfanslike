@@ -152,6 +152,22 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     }
   }
 
+  /// Signup new user (alias for register with creator support)
+  Future<void> signup({
+    required String email,
+    required String password,
+    required String name,
+    bool isCreator = false,
+  }) async {
+    // TODO: In a real implementation, handle isCreator flag
+    // For now, we'll use the existing register method
+    await register(
+      email: email,
+      password: password,
+      name: name,
+    );
+  }
+
   /// Logout current user
   Future<void> logout() async {
     if (state.isLoading) return;

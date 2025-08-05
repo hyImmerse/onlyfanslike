@@ -420,3 +420,7 @@
     - go_router redirect 기능으로 접근 제어
     - 비인증 사용자 로그인 페이지 리다이렉트
     - 크리에이터 전용 페이지 접근 제한
+  - Flutter Web 초기화 문제 해결
+    - flutter_bootstrap.js 방식으로 업데이트
+    - buildConfig 설정 이슈 해결
+    - 흰 화면 멈춤 현상 수정

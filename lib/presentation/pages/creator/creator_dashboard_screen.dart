@@ -4,7 +4,12 @@ import 'package:go_router/go_router.dart';
 import 'package:creator_platform_demo/presentation/providers/auth_provider.dart';
 import 'package:creator_platform_demo/presentation/providers/subscription_providers.dart';
 import 'package:creator_platform_demo/presentation/providers/content_providers.dart';
+import 'package:creator_platform_demo/presentation/providers/revenue_analytics_provider.dart';
 import 'package:creator_platform_demo/domain/entities/content.dart';
+import 'package:creator_platform_demo/domain/entities/revenue_analytics.dart';
+import 'package:creator_platform_demo/presentation/widgets/dashboard/revenue_summary_widget.dart';
+import 'package:creator_platform_demo/presentation/widgets/dashboard/revenue_chart_widget.dart';
+import 'package:creator_platform_demo/presentation/widgets/dashboard/subscriber_analytics_widget.dart';
 
 class CreatorDashboardScreen extends ConsumerWidget {
   const CreatorDashboardScreen({super.key});
@@ -12,8 +17,9 @@ class CreatorDashboardScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentUser = ref.watch(currentUserProvider);
-    final creatorRevenue = ref.watch(creatorRevenueProvider(currentUser?.id ?? ''));
-    final AsyncValue<List<Content>> creatorContents = ref.watch(creatorContentsProvider(currentUser?.id ?? ''));
+    final creatorId = currentUser?.id ?? '';
+    final analyticsAsync = ref.watch(dashboardAnalyticsProvider(creatorId));
+    final AsyncValue<List<Content>> creatorContents = ref.watch(creatorContentsProvider(creatorId));
     
     if (currentUser == null) {
       // 로그인하지 않은 경우 로그인 화면으로 리다이렉트
@@ -34,6 +40,13 @@ class CreatorDashboardScreen extends ConsumerWidget {
         elevation: 0,
         actions: [
           IconButton(
+            icon: const Icon(Icons.notifications_outlined),
+            onPressed: () {
+              context.push('/notifications');
+            },
+            tooltip: '알림',
+          ),
+          IconButton(
             icon: const Icon(Icons.add_box_outlined),
             onPressed: () {
               // 콘텐츠 업로드 화면으로 이동
@@ -48,11 +61,12 @@ class CreatorDashboardScreen extends ConsumerWidget {
           ),
         ],
       ),
-      body: creatorRevenue.when(
-        data: (revenue) => _buildDashboard(
+      body: analyticsAsync.when(
+        data: (analytics) => _buildEnhancedDashboard(
           context, 
           ref, 
-          revenue,
+          creatorId,
+          analytics,
           creatorContents,
         ),
         loading: () => const Center(child: CircularProgressIndicator()),
@@ -65,7 +79,10 @@ class CreatorDashboardScreen extends ConsumerWidget {
               Text('오류가 발생했습니다: $error'),
               const SizedBox(height: 16),
               ElevatedButton(
-                onPressed: () => ref.invalidate(creatorRevenueProvider),
+                onPressed: () {
+                  ref.invalidate(dashboardAnalyticsProvider);
+                  ref.invalidate(creatorContentsProvider);
+                },
                 child: const Text('다시 시도'),
               ),
             ],
@@ -75,17 +92,18 @@ class CreatorDashboardScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildDashboard(
+  Widget _buildEnhancedDashboard(
     BuildContext context,
     WidgetRef ref,
-    Map<String, dynamic> revenue,
+    String creatorId,
+    DashboardAnalytics analytics,
     AsyncValue<List<Content>> contentsAsync,
   ) {
     final theme = Theme.of(context);
     
     return RefreshIndicator(
       onRefresh: () async {
-        ref.invalidate(creatorRevenueProvider);
+        ref.invalidate(dashboardAnalyticsProvider);
         ref.invalidate(creatorContentsProvider);
       },
       child: SingleChildScrollView(
@@ -94,19 +112,23 @@ class CreatorDashboardScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 수익 요약 섹션
-            _buildRevenueSection(context, revenue),
+            // 향상된 수익 요약 위젯
+            RevenueSummaryWidget(creatorId: creatorId),
             const SizedBox(height: 24),
             
-            // 구독자 통계 섹션
-            _buildSubscriberSection(context, revenue),
+            // 수익 차트
+            RevenueChartWidget(creatorId: creatorId),
             const SizedBox(height: 24),
             
-            // 콘텐츠 관리 섹션
+            // 구독자 분석
+            SubscriberAnalyticsWidget(creatorId: creatorId),
+            const SizedBox(height: 24),
+            
+            // 콘텐츠 관리 섹션 (기존 유지)
             _buildContentSection(context, ref, contentsAsync),
             const SizedBox(height: 24),
             
-            // 빠른 액션 섹션
+            // 빠른 액션 섹션 (기존 유지)
             _buildQuickActionsSection(context),
           ],
         ),
@@ -114,157 +136,6 @@ class CreatorDashboardScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildRevenueSection(BuildContext context, Map<String, dynamic> revenue) {
-    final theme = Theme.of(context);
-    final totalRevenue = revenue['totalRevenue'] ?? 0;
-    final monthlyRevenue = revenue['monthlyRevenue'] ?? 0;
-    final pendingRevenue = revenue['pendingRevenue'] ?? 0;
-    
-    return Card(
-      elevation: 0,
-      color: theme.colorScheme.primaryContainer,
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Icon(
-                  Icons.account_balance_wallet,
-                  color: theme.colorScheme.onPrimaryContainer,
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  '수익 현황',
-                  style: theme.textTheme.titleLarge?.copyWith(
-                    color: theme.colorScheme.onPrimaryContainer,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _buildRevenueItem(
-                  context,
-                  '총 수익',
-                  '₩${_formatNumber(totalRevenue)}',
-                  Icons.trending_up,
-                  theme.colorScheme.primary,
-                ),
-                _buildRevenueItem(
-                  context,
-                  '이번 달 수익',
-                  '₩${_formatNumber(monthlyRevenue)}',
-                  Icons.calendar_today,
-                  theme.colorScheme.secondary,
-                ),
-                _buildRevenueItem(
-                  context,
-                  '정산 대기',
-                  '₩${_formatNumber(pendingRevenue)}',
-                  Icons.schedule,
-                  theme.colorScheme.tertiary,
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildRevenueItem(
-    BuildContext context,
-    String label,
-    String value,
-    IconData icon,
-    Color color,
-  ) {
-    return Expanded(
-      child: Column(
-        children: [
-          Icon(icon, color: color, size: 32),
-          const SizedBox(height: 8),
-          Text(
-            value,
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: color,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            label,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSubscriberSection(BuildContext context, Map<String, dynamic> revenue) {
-    final theme = Theme.of(context);
-    final totalSubscribers = revenue['subscriberCount'] ?? 0;
-    final newSubscribers = revenue['newSubscribersThisMonth'] ?? 0;
-    final churnRate = revenue['churnRate'] ?? 0.0;
-    
-    return Card(
-      elevation: 0,
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Icon(
-                  Icons.people,
-                  color: theme.colorScheme.primary,
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  '구독자 통계',
-                  style: theme.textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            _buildStatRow(
-              context,
-              '전체 구독자',
-              '$totalSubscribers명',
-              Icons.group,
-              theme.colorScheme.primary,
-            ),
-            const SizedBox(height: 12),
-            _buildStatRow(
-              context,
-              '신규 구독자 (이번 달)',
-              '+$newSubscribers명',
-              Icons.person_add,
-              theme.colorScheme.secondary,
-            ),
-            const SizedBox(height: 12),
-            _buildStatRow(
-              context,
-              '이탈률',
-              '${(churnRate * 100).toStringAsFixed(1)}%',
-              Icons.trending_down,
-              churnRate > 0.1 ? theme.colorScheme.error : theme.colorScheme.tertiary,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 
   Widget _buildStatRow(
     BuildContext context,
@@ -537,12 +408,4 @@ class CreatorDashboardScreen extends ConsumerWidget {
     );
   }
 
-  String _formatNumber(int number) {
-    if (number >= 1000000) {
-      return '${(number / 1000000).toStringAsFixed(1)}M';
-    } else if (number >= 1000) {
-      return '${(number / 1000).toStringAsFixed(1)}K';
-    }
-    return number.toString();
-  }
 }

@@ -34,6 +34,9 @@ dependencies:
   cached_network_image: ^3.3.1
   shimmer: ^3.0.0
   
+  # Charts
+  fl_chart: ^0.66.0
+  
   # Video Player
   video_player: ^2.8.2
   chewie: ^1.7.4

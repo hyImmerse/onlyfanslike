@@ -14,10 +14,6 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-ContentModel _$ContentModelFromJson(Map<String, dynamic> json) {
-  return _ContentModel.fromJson(json);
-}
-
 /// @nodoc
 mixin _$ContentModel {
   String get id => throw _privateConstructorUsedError;
@@ -38,9 +34,6 @@ mixin _$ContentModel {
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get publishedAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
-
-  /// Serializes this ContentModel to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of ContentModel
   /// with the given fields replaced by the non-null parameter values.
@@ -326,7 +319,7 @@ class __$$ContentModelImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
 class _$ContentModelImpl implements _ContentModel {
   const _$ContentModelImpl(
       {required this.id,
@@ -348,9 +341,6 @@ class _$ContentModelImpl implements _ContentModel {
       this.publishedAt,
       this.updatedAt})
       : _allowedTierIds = allowedTierIds;
-
-  factory _$ContentModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ContentModelImplFromJson(json);
 
   @override
   final String id;
@@ -446,7 +436,6 @@ class _$ContentModelImpl implements _ContentModel {
                 other.updatedAt == updatedAt));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -476,13 +465,6 @@ class _$ContentModelImpl implements _ContentModel {
   @pragma('vm:prefer-inline')
   _$$ContentModelImplCopyWith<_$ContentModelImpl> get copyWith =>
       __$$ContentModelImplCopyWithImpl<_$ContentModelImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$ContentModelImplToJson(
-      this,
-    );
-  }
 }
 
 abstract class _ContentModel implements ContentModel {
@@ -505,9 +487,6 @@ abstract class _ContentModel implements ContentModel {
       final DateTime? createdAt,
       final DateTime? publishedAt,
       final DateTime? updatedAt}) = _$ContentModelImpl;
-
-  factory _ContentModel.fromJson(Map<String, dynamic> json) =
-      _$ContentModelImpl.fromJson;
 
   @override
   String get id;

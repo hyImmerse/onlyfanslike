@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:creator_platform_demo/domain/entities/app_notification.dart';
+import 'package:creator_platform_demo/domain/entities/notification.dart';
 import 'package:creator_platform_demo/domain/repositories/notification_repository.dart';
 import 'package:creator_platform_demo/presentation/providers/repository_providers.dart';
 
 /// 알림 상태 클래스
 class NotificationState {
-  final List<AppNotification> notifications;
+  final List<Notification> notifications;
   final int unreadCount;
   final bool isLoading;
   final String? error;
@@ -21,7 +21,7 @@ class NotificationState {
   });
 
   NotificationState copyWith({
-    List<AppNotification>? notifications,
+    List<Notification>? notifications,
     int? unreadCount,
     bool? isLoading,
     String? error,
@@ -235,7 +235,7 @@ class NotificationNotifier extends StateNotifier<NotificationState> {
   }
 
   /// 새 알림 생성 (테스트용)
-  Future<void> createNotification(AppNotification notification) async {
+  Future<void> createNotification(Notification notification) async {
     try {
       await _repository.createNotification(notification);
       await loadNotifications(); // 목록 새로고침
@@ -306,7 +306,7 @@ class NotificationActions {
   NotificationActions(this.ref);
 
   /// 알림을 읽음으로 처리하고 해당 화면으로 이동
-  Future<void> handleNotificationTap(AppNotification notification) async {
+  Future<void> handleNotificationTap(Notification notification) async {
     // 읽지 않은 알림이면 읽음으로 처리
     if (notification.status == NotificationStatus.unread) {
       await ref.read(notificationProvider.notifier).markAsRead(notification.id);

@@ -5,8 +5,7 @@ export 'notification.dart'
     NotificationPriority, 
     NotificationStatus,
     NotificationSettings,
-    NotificationStatistics,
-    NotificationRepository;
+    NotificationStatistics;
 
 // Hide the conflicting Notification class, use AppNotification instead
 export 'notification.dart' hide Notification;

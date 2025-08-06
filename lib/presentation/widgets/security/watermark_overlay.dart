@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
+import 'security_utils.dart';
+
 /// 워터마크 오버레이 위젯
 /// 동적이고 다양한 패턴의 워터마크를 생성하여 콘텐츠 보호
 class WatermarkOverlay extends StatefulWidget {
@@ -105,6 +107,11 @@ class _WatermarkOverlayState extends State<WatermarkOverlay>
 
   @override
   Widget build(BuildContext context) {
+    // 데모 모드일 때는 워터마크 비활성화
+    if (SecurityUtils.isDemoMode) {
+      return widget.child;
+    }
+
     return Stack(
       children: [
         // 원본 콘텐츠

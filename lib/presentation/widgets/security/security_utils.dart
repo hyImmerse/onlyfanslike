@@ -6,9 +6,25 @@ import 'dart:js' as js;
 class SecurityUtils {
   static bool _isInitialized = false;
   
+  /// 데모 모드 플래그 - 개발/데모 시 보안 기능 비활성화
+  static bool isDemoMode = true; // 데모 상태에서는 보안 기능 비활성화
+  
+  /// 데모 모드 설정
+  static void setDemoMode(bool enabled) {
+    isDemoMode = enabled;
+    if (enabled) {
+      // 데모 모드 활성화 시 기존 보안 기능 정리
+      dispose();
+      _isInitialized = false;
+    } else {
+      // 데모 모드 비활성화 시 보안 기능 재초기화
+      initialize();
+    }
+  }
+  
   /// 보안 기능 초기화
   static void initialize() {
-    if (!kIsWeb || _isInitialized) return;
+    if (!kIsWeb || _isInitialized || isDemoMode) return;
     
     _setupGlobalSecurity();
     _isInitialized = true;
@@ -159,7 +175,7 @@ class SecurityUtils {
 
   /// 화면 녹화 감지 (실험적 기능)
   static void setupScreenRecordingDetection(Function? onDetected) {
-    if (!kIsWeb) return;
+    if (!kIsWeb || isDemoMode) return;
     
     js.context.callMethod('eval', ['''
       (function() {
@@ -207,7 +223,7 @@ class SecurityUtils {
 
   /// 개발자 도구 열림 감지 고급 버전
   static void setupAdvancedDevToolsDetection(Function(bool) onStateChanged) {
-    if (!kIsWeb) return;
+    if (!kIsWeb || isDemoMode) return;
     
     js.context.callMethod('eval', ['''
       (function() {
@@ -314,12 +330,13 @@ class SecurityUtils {
       'isDebugMode': kDebugMode,
       'isProfileMode': kProfileMode,
       'isReleaseMode': kReleaseMode,
+      'isDemoMode': isDemoMode,
     };
   }
 
   /// 보안 기능 정리
   static void dispose() {
-    if (!kIsWeb) return;
+    if (!kIsWeb || isDemoMode) return;
     
     // JavaScript 이벤트 리스너 정리
     js.context.callMethod('eval', ['''

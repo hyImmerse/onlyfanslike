@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'dart:html' as html;
 import 'dart:js' as js;
 
+import 'security_utils.dart';
+
 /// 우클릭 방지 전용 위젯
 /// 모든 형태의 우클릭, 롱프레스, 컨텍스트 메뉴를 차단하는 전문 위젯
 class RightClickBlocker extends StatefulWidget {
@@ -38,7 +40,8 @@ class _RightClickBlockerState extends State<RightClickBlocker> {
     super.initState();
     _blockMessage = widget.customBlockMessage ?? '이 콘텐츠는 보호되어 있습니다';
     
-    if (kIsWeb) {
+    // 데모 모드가 아닐 때만 우클릭 차단 기능 활성화
+    if (kIsWeb && !SecurityUtils.isDemoMode) {
       _initializeWebRightClickBlocking();
     }
   }
@@ -366,6 +369,11 @@ class _RightClickBlockerState extends State<RightClickBlocker> {
 
   @override
   Widget build(BuildContext context) {
+    // 데모 모드일 때는 보안 기능 비활성화
+    if (SecurityUtils.isDemoMode) {
+      return widget.child;
+    }
+
     return GestureDetector(
       // 모바일에서 롱프레스 차단
       onLongPress: widget.enableTouchContextMenuBlock

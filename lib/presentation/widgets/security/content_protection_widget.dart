@@ -54,8 +54,8 @@ class _ContentProtectionWidgetState extends State<ContentProtectionWidget> {
     super.initState();
     _currentWatermarkText = widget.watermarkText ?? '© 구독자 전용 콘텐츠';
     
-    // Web 전용 보안 기능 초기화
-    if (kIsWeb) {
+    // Web 전용 보안 기능 초기화 (데모 모드가 아닐 때만)
+    if (kIsWeb && !SecurityUtils.isDemoMode) {
       _initializeWebSecurity();
     }
   }
@@ -228,6 +228,11 @@ class _ContentProtectionWidgetState extends State<ContentProtectionWidget> {
   @override
   Widget build(BuildContext context) {
     Widget protectedContent = widget.child;
+
+    // 데모 모드일 때는 보안 기능들을 적용하지 않음
+    if (SecurityUtils.isDemoMode) {
+      return protectedContent;
+    }
 
     // 우클릭 방지 레이어
     if (widget.enableRightClickPrevention) {

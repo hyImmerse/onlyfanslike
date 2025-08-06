@@ -5,6 +5,8 @@ import 'dart:js' as js;
 import 'dart:async';
 import 'dart:ui';
 
+import 'security_utils.dart';
+
 /// 개발자 도구 감지기
 /// 다양한 방법을 통해 개발자 도구 열림을 감지하고 대응하는 전문 위젯
 class DevToolsDetector extends StatefulWidget {
@@ -62,7 +64,8 @@ class _DevToolsDetectorState extends State<DevToolsDetector>
       curve: Curves.elasticOut,
     ));
 
-    if (kIsWeb) {
+    // 데모 모드가 아닐 때만 개발자 도구 감지 활성화
+    if (kIsWeb && !SecurityUtils.isDemoMode) {
       _initializeDevToolsDetection();
     }
   }
@@ -370,6 +373,11 @@ class _DevToolsDetectorState extends State<DevToolsDetector>
 
   @override
   Widget build(BuildContext context) {
+    // 데모 모드일 때는 보안 기능 비활성화
+    if (SecurityUtils.isDemoMode) {
+      return widget.child;
+    }
+
     return Stack(
       children: [
         // 원본 콘텐츠

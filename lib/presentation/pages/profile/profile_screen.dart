@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:creator_platform_demo/presentation/providers/auth_provider.dart';
+import 'package:creator_platform_demo/presentation/providers/notification_provider.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
@@ -173,6 +174,41 @@ class ProfileScreen extends ConsumerWidget {
               trailing: const Icon(Icons.arrow_forward_ios),
               onTap: () {
                 context.go('/payment-history');
+              },
+            ),
+          ),
+          Card(
+            child: Consumer(
+              builder: (context, ref, child) {
+                final unreadCount = ref.watch(unreadNotificationCountProvider);
+                return ListTile(
+                  leading: Stack(
+                    children: [
+                      const Icon(Icons.notifications_outlined),
+                      if (unreadCount > 0)
+                        Positioned(
+                          right: 0,
+                          top: 0,
+                          child: Container(
+                            width: 8,
+                            height: 8,
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.error,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                  title: const Text('알림'),
+                  subtitle: Text(unreadCount > 0 
+                      ? '읽지 않은 알림 ${unreadCount}개'
+                      : '알림 설정 및 확인'),
+                  trailing: const Icon(Icons.arrow_forward_ios),
+                  onTap: () {
+                    context.go('/notifications');
+                  },
+                );
               },
             ),
           ),

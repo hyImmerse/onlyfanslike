@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:creator_platform_demo/presentation/providers/creator_providers.dart';
 import 'package:creator_platform_demo/presentation/providers/auth_provider.dart';
+import 'package:creator_platform_demo/presentation/providers/notification_provider.dart';
 import 'package:creator_platform_demo/presentation/widgets/creator_card.dart';
 import 'package:creator_platform_demo/domain/entities/creator.dart';
 
@@ -49,6 +50,29 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   : 'Creator Platform',
             ),
             actions: [
+              // 알림 아이콘
+              Consumer(
+                builder: (context, ref, child) {
+                  final unreadCount = ref.watch(unreadNotificationCountProvider);
+                  return IconButton(
+                    onPressed: () {
+                      context.push('/notifications');
+                    },
+                    icon: Badge(
+                      isLabelVisible: unreadCount > 0,
+                      label: unreadCount > 99 
+                          ? const Text('99+') 
+                          : Text('$unreadCount'),
+                      child: Icon(
+                        Icons.notifications_outlined,
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
+                    ),
+                    tooltip: '알림',
+                  );
+                },
+              ),
+              // 메시지 아이콘
               IconButton(
                 onPressed: () {
                   context.push('/conversations');
@@ -62,6 +86,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 ),
                 tooltip: '메시지',
               ),
+              // 프로필 아이콘
               IconButton(
                 onPressed: () {
                   context.push('/profile');

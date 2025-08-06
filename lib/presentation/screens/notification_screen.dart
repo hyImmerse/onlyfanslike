@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:creator_platform_demo/domain/entities/notification.dart';
+import 'package:creator_platform_demo/domain/entities/notification.dart' as app_notification;
 import 'package:creator_platform_demo/presentation/providers/notification_provider.dart';
 import 'package:creator_platform_demo/presentation/widgets/app_bar_widget.dart';
 
@@ -16,8 +16,8 @@ class NotificationScreen extends ConsumerStatefulWidget {
 class _NotificationScreenState extends ConsumerState<NotificationScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  NotificationType? _selectedType;
-  NotificationStatus? _selectedStatus;
+  app_notification.NotificationType? _selectedType;
+  app_notification.NotificationStatus? _selectedStatus;
   bool _showFilters = false;
 
   @override
@@ -38,7 +38,7 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen>
   }
 
   /// 필터 적용
-  void _applyFilter(NotificationType? type, NotificationStatus? status) {
+  void _applyFilter(app_notification.NotificationType? type, app_notification.NotificationStatus? status) {
     setState(() {
       _selectedType = type;
       _selectedStatus = status;
@@ -59,8 +59,8 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen>
   }
 
   /// 알림을 읽음으로 처리
-  void _markAsRead(Notification notification) {
-    if (notification.status == NotificationStatus.read) return;
+  void _markAsRead(app_notification.Notification notification) {
+    if (notification.status == app_notification.NotificationStatus.read) return;
     ref.read(notificationProvider.notifier).markAsRead(notification.id);
   }
 
@@ -76,7 +76,7 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen>
   }
 
   /// 알림 보관
-  void _archiveNotification(Notification notification) {
+  void _archiveNotification(app_notification.Notification notification) {
     ref.read(notificationProvider.notifier).archiveNotification(notification.id);
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
@@ -167,10 +167,10 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen>
                     _applyFilter(null, null);
                     break;
                   case 1:
-                    _applyFilter(null, NotificationStatus.unread);
+                    _applyFilter(null, app_notification.NotificationStatus.unread);
                     break;
                   case 2:
-                    _applyFilter(null, NotificationStatus.archived);
+                    _applyFilter(null, app_notification.NotificationStatus.archived);
                     break;
                 }
               },
@@ -265,7 +265,7 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen>
           Wrap(
             spacing: 8,
             runSpacing: 8,
-            children: NotificationType.values.map((type) {
+            children: app_notification.NotificationType.values.map((type) {
               final isSelected = _selectedType == type;
               return FilterChip(
                 selected: isSelected,
@@ -319,10 +319,10 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen>
     String message = '알림이 없습니다';
     IconData icon = Icons.notifications_none_outlined;
 
-    if (_selectedStatus == NotificationStatus.unread) {
+    if (_selectedStatus == app_notification.NotificationStatus.unread) {
       message = '읽지 않은 알림이 없습니다';
       icon = Icons.mark_email_read_outlined;
-    } else if (_selectedStatus == NotificationStatus.archived) {
+    } else if (_selectedStatus == app_notification.NotificationStatus.archived) {
       message = '보관된 알림이 없습니다';
       icon = Icons.archive_outlined;
     } else if (_selectedType != null) {
@@ -402,9 +402,9 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen>
   }
 
   /// 알림 카드 위젯
-  Widget _buildNotificationCard(Notification notification, ColorScheme colorScheme) {
-    final isUnread = notification.status == NotificationStatus.unread;
-    final isArchived = notification.status == NotificationStatus.archived;
+  Widget _buildNotificationCard(app_notification.Notification notification, ColorScheme colorScheme) {
+    final isUnread = notification.status == app_notification.NotificationStatus.unread;
+    final isArchived = notification.status == app_notification.NotificationStatus.archived;
     final typeColor = NotificationActions.getTypeColor(notification.type);
     final priorityColor = NotificationActions.getPriorityColor(notification.priority);
 
@@ -532,8 +532,8 @@ class _NotificationScreenState extends ConsumerState<NotificationScreen>
                                   ),
                                 ),
                               ),
-                              if (notification.priority == NotificationPriority.urgent ||
-                                  notification.priority == NotificationPriority.high) ...[
+                              if (notification.priority == app_notification.NotificationPriority.urgent ||
+                                  notification.priority == app_notification.NotificationPriority.high) ...[
                                 const SizedBox(width: 4),
                                 Container(
                                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),

@@ -196,9 +196,10 @@ class SecurityUtils {
     ''']);
 
     // 메시지 리스너
-    html.window.addEventListener('message', (html.MessageEvent event) {
-      if (event.data['type'] == 'SCREEN_RECORDING_DETECTED' ||
-          event.data['type'] == 'SCREEN_RECORDING_SUSPECTED') {
+    html.window.addEventListener('message', (event) {
+      final messageEvent = event as html.MessageEvent;
+      if (messageEvent.data['type'] == 'SCREEN_RECORDING_DETECTED' ||
+          messageEvent.data['type'] == 'SCREEN_RECORDING_SUSPECTED') {
         onDetected?.call();
       }
     });
@@ -282,10 +283,11 @@ class SecurityUtils {
     ''']);
 
     // 메시지 리스너
-    html.window.addEventListener('message', (html.MessageEvent event) {
-      if (event.data['type'] == 'DEVTOOLS_OPENED') {
+    html.window.addEventListener('message', (event) {
+      final messageEvent = event as html.MessageEvent;
+      if (messageEvent.data['type'] == 'DEVTOOLS_OPENED') {
         onStateChanged(true);
-      } else if (event.data['type'] == 'DEVTOOLS_CLOSED') {
+      } else if (messageEvent.data['type'] == 'DEVTOOLS_CLOSED') {
         onStateChanged(false);
       }
     });

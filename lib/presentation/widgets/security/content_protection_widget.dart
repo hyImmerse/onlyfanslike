@@ -125,13 +125,14 @@ class _ContentProtectionWidgetState extends State<ContentProtectionWidget> {
     ''']);
 
     // 메시지 리스너 등록
-    html.window.addEventListener('message', (html.MessageEvent event) {
-      if (event.data['type'] == 'DEVTOOLS_OPENED' && !_isDevToolsOpen) {
+    html.window.addEventListener('message', (event) {
+      final messageEvent = event as html.MessageEvent;
+      if (messageEvent.data['type'] == 'DEVTOOLS_OPENED' && !_isDevToolsOpen) {
         setState(() {
           _isDevToolsOpen = true;
         });
         _handleSecurityViolation('개발자 도구가 감지되었습니다');
-      } else if (event.data['type'] == 'DEVTOOLS_CLOSED' && _isDevToolsOpen) {
+      } else if (messageEvent.data['type'] == 'DEVTOOLS_CLOSED' && _isDevToolsOpen) {
         setState(() {
           _isDevToolsOpen = false;
         });

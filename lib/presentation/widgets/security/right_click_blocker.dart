@@ -132,10 +132,11 @@ class _RightClickBlockerState extends State<RightClickBlocker> {
     ''']);
 
     // 메시지 리스너 등록
-    html.window.addEventListener('message', (html.MessageEvent event) {
-      if (event.data['type'] == 'RIGHT_CLICK_BLOCKED') {
-        _handleRightClickBlocked(event.data);
-      } else if (event.data['type'] == 'LONG_PRESS_BLOCKED') {
+    html.window.addEventListener('message', (event) {
+      final messageEvent = event as html.MessageEvent;
+      if (messageEvent.data['type'] == 'RIGHT_CLICK_BLOCKED') {
+        _handleRightClickBlocked(messageEvent.data);
+      } else if (messageEvent.data['type'] == 'LONG_PRESS_BLOCKED') {
         _handleLongPressBlocked();
       }
     });

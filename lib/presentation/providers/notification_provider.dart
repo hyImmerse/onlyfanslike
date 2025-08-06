@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:creator_platform_demo/domain/entities/notification.dart';
+import 'package:creator_platform_demo/domain/entities/notification.dart' as app_notification;
 import 'package:creator_platform_demo/domain/repositories/notification_repository.dart';
 import 'package:creator_platform_demo/presentation/providers/repository_providers.dart';
 
 /// 알림 상태 클래스
 class NotificationState {
-  final List<Notification> notifications;
+  final List<app_notification.Notification> notifications;
   final int unreadCount;
   final bool isLoading;
   final String? error;
-  final NotificationSettings? settings;
+  final app_notification.NotificationSettings? settings;
 
   const NotificationState({
     this.notifications = const [],
@@ -21,11 +21,11 @@ class NotificationState {
   });
 
   NotificationState copyWith({
-    List<Notification>? notifications,
+    List<app_notification.Notification>? notifications,
     int? unreadCount,
     bool? isLoading,
     String? error,
-    NotificationSettings? settings,
+    app_notification.NotificationSettings? settings,
   }) {
     return NotificationState(
       notifications: notifications ?? this.notifications,
@@ -50,8 +50,8 @@ class NotificationNotifier extends StateNotifier<NotificationState> {
 
   /// 알림 목록 로드
   Future<void> loadNotifications({
-    NotificationType? type,
-    NotificationStatus? status,
+    app_notification.NotificationType? type,
+    app_notification.NotificationStatus? status,
     int limit = 50,
     int offset = 0,
   }) async {
@@ -107,7 +107,7 @@ class NotificationNotifier extends StateNotifier<NotificationState> {
       final updatedNotifications = state.notifications.map((notification) {
         if (notification.id == notificationId) {
           return notification.copyWith(
-            status: NotificationStatus.read,
+            status: app_notification.NotificationStatus.read,
             readAt: DateTime.now(),
           );
         }
@@ -130,7 +130,7 @@ class NotificationNotifier extends StateNotifier<NotificationState> {
       final updatedNotifications = state.notifications.map((notification) {
         if (notificationIds.contains(notification.id)) {
           return notification.copyWith(
-            status: NotificationStatus.read,
+            status: app_notification.NotificationStatus.read,
             readAt: DateTime.now(),
           );
         }
@@ -151,9 +151,9 @@ class NotificationNotifier extends StateNotifier<NotificationState> {
       
       // 로컬 상태 업데이트
       final updatedNotifications = state.notifications.map((notification) {
-        if (notification.status == NotificationStatus.unread) {
+        if (notification.status == app_notification.NotificationStatus.unread) {
           return notification.copyWith(
-            status: NotificationStatus.read,
+            status: app_notification.NotificationStatus.read,
             readAt: DateTime.now(),
           );
         }
@@ -177,7 +177,7 @@ class NotificationNotifier extends StateNotifier<NotificationState> {
       // 로컬 상태 업데이트
       final updatedNotifications = state.notifications.map((notification) {
         if (notification.id == notificationId) {
-          return notification.copyWith(status: NotificationStatus.archived);
+          return notification.copyWith(status: app_notification.NotificationStatus.archived);
         }
         return notification;
       }).toList();
@@ -208,21 +208,21 @@ class NotificationNotifier extends StateNotifier<NotificationState> {
 
   /// 읽지 않은 알림만 가져오기
   Future<void> loadUnreadNotifications() async {
-    await loadNotifications(status: NotificationStatus.unread);
+    await loadNotifications(status: app_notification.NotificationStatus.unread);
   }
 
   /// 보관된 알림만 가져오기
   Future<void> loadArchivedNotifications() async {
-    await loadNotifications(status: NotificationStatus.archived);
+    await loadNotifications(status: app_notification.NotificationStatus.archived);
   }
 
   /// 특정 유형의 알림만 가져오기
-  Future<void> loadNotificationsByType(NotificationType type) async {
+  Future<void> loadNotificationsByType(app_notification.NotificationType type) async {
     await loadNotifications(type: type);
   }
 
   /// 알림 설정 업데이트
-  Future<void> updateSettings(NotificationSettings settings) async {
+  Future<void> updateSettings(app_notification.NotificationSettings settings) async {
     try {
       final updatedSettings = await _repository.updateUserNotificationSettings(
         _userId,
@@ -235,7 +235,7 @@ class NotificationNotifier extends StateNotifier<NotificationState> {
   }
 
   /// 새 알림 생성 (테스트용)
-  Future<void> createNotification(Notification notification) async {
+  Future<void> createNotification(app_notification.Notification notification) async {
     try {
       await _repository.createNotification(notification);
       await loadNotifications(); // 목록 새로고침
@@ -272,7 +272,7 @@ final unreadNotificationCountProvider = Provider<int>((ref) {
 });
 
 /// 알림 설정을 위한 Provider
-final notificationSettingsProvider = Provider<NotificationSettings?>((ref) {
+final notificationSettingsProvider = Provider<app_notification.NotificationSettings?>((ref) {
   return ref.watch(notificationProvider).settings;
 });
 
@@ -287,13 +287,13 @@ final notificationErrorProvider = Provider<String?>((ref) {
 });
 
 /// 특정 유형의 알림 통계 Provider
-final notificationStatisticsProvider = FutureProvider<NotificationStatistics>((ref) async {
+final notificationStatisticsProvider = FutureProvider<app_notification.NotificationStatistics>((ref) async {
   final repository = ref.watch(notificationRepositoryProvider);
   return repository.getUserNotificationStatistics('1');
 });
 
 /// 실시간 알림 스트림 Provider (실제 구현에서는 WebSocket이나 FCM 사용)
-final realTimeNotificationProvider = StreamProvider<Notification>((ref) {
+final realTimeNotificationProvider = StreamProvider<app_notification.Notification>((ref) {
   // 실제 구현에서는 WebSocket이나 FCM으로 실시간 알림을 받아야 함
   // 데모용으로 빈 스트림 반환
   return Stream.empty();
@@ -306,9 +306,9 @@ class NotificationActions {
   NotificationActions(this.ref);
 
   /// 알림을 읽음으로 처리하고 해당 화면으로 이동
-  Future<void> handleNotificationTap(Notification notification) async {
+  Future<void> handleNotificationTap(app_notification.Notification notification) async {
     // 읽지 않은 알림이면 읽음으로 처리
-    if (notification.status == NotificationStatus.unread) {
+    if (notification.status == app_notification.NotificationStatus.unread) {
       await ref.read(notificationProvider.notifier).markAsRead(notification.id);
     }
 
@@ -320,55 +320,55 @@ class NotificationActions {
   }
 
   /// 알림 유형에 따른 아이콘 반환
-  static IconData getTypeIcon(NotificationType type) {
+  static IconData getTypeIcon(app_notification.NotificationType type) {
     switch (type) {
-      case NotificationType.payment:
+      case app_notification.NotificationType.payment:
         return Icons.payment;
-      case NotificationType.subscription:
+      case app_notification.NotificationType.subscription:
         return Icons.subscriptions;
-      case NotificationType.content:
+      case app_notification.NotificationType.content:
         return Icons.video_library;
-      case NotificationType.message:
+      case app_notification.NotificationType.message:
         return Icons.message;
-      case NotificationType.system:
+      case app_notification.NotificationType.system:
         return Icons.settings;
-      case NotificationType.creator:
+      case app_notification.NotificationType.creator:
         return Icons.person;
-      case NotificationType.promotion:
+      case app_notification.NotificationType.promotion:
         return Icons.local_offer;
     }
   }
 
   /// 알림 유형에 따른 색상 반환
-  static Color getTypeColor(NotificationType type) {
+  static Color getTypeColor(app_notification.NotificationType type) {
     switch (type) {
-      case NotificationType.payment:
+      case app_notification.NotificationType.payment:
         return Colors.green;
-      case NotificationType.subscription:
+      case app_notification.NotificationType.subscription:
         return Colors.blue;
-      case NotificationType.content:
+      case app_notification.NotificationType.content:
         return Colors.purple;
-      case NotificationType.message:
+      case app_notification.NotificationType.message:
         return Colors.orange;
-      case NotificationType.system:
+      case app_notification.NotificationType.system:
         return Colors.grey;
-      case NotificationType.creator:
+      case app_notification.NotificationType.creator:
         return Colors.pink;
-      case NotificationType.promotion:
+      case app_notification.NotificationType.promotion:
         return Colors.amber;
     }
   }
 
   /// 우선순위에 따른 색상 반환
-  static Color getPriorityColor(NotificationPriority priority) {
+  static Color getPriorityColor(app_notification.NotificationPriority priority) {
     switch (priority) {
-      case NotificationPriority.low:
+      case app_notification.NotificationPriority.low:
         return Colors.grey;
-      case NotificationPriority.normal:
+      case app_notification.NotificationPriority.normal:
         return Colors.blue;
-      case NotificationPriority.high:
+      case app_notification.NotificationPriority.high:
         return Colors.orange;
-      case NotificationPriority.urgent:
+      case app_notification.NotificationPriority.urgent:
         return Colors.red;
     }
   }

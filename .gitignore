@@ -40,8 +40,9 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-# FVM
-.fvm/flutter_sdk
+# FVM (Flutter Version Management)
+.fvm/
+!.fvm/fvm_config.json
 
 # Claude AI
 .claude/

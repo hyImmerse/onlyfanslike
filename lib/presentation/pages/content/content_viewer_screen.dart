@@ -6,7 +6,10 @@ import 'package:creator_platform_demo/domain/entities/creator.dart';
 import 'package:creator_platform_demo/presentation/providers/content_providers.dart';
 import 'package:creator_platform_demo/presentation/providers/creator_providers.dart';
 import 'package:creator_platform_demo/presentation/providers/subscription_providers.dart';
+import 'package:creator_platform_demo/presentation/providers/auth_provider.dart';
 import 'package:creator_platform_demo/presentation/widgets/video_player_widget.dart';
+import 'package:creator_platform_demo/presentation/widgets/security/content_protection_widget.dart';
+import 'package:creator_platform_demo/presentation/widgets/security/security_utils.dart';
 
 class ContentViewerScreen extends ConsumerStatefulWidget {
   final String contentId;
@@ -21,6 +24,20 @@ class _ContentViewerScreenState extends ConsumerState<ContentViewerScreen> {
   bool isLiked = false;
   int likeCount = 0;
   bool showComments = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // 보안 기능 초기화
+    SecurityUtils.initialize();
+  }
+
+  @override
+  void dispose() {
+    // 보안 기능 정리
+    SecurityUtils.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,14 +136,74 @@ class _ContentViewerScreenState extends ConsumerState<ContentViewerScreen> {
       return _buildLockedContentOverlay(content);
     }
     
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      child: content.type == ContentType.image
-          ? _buildImagePlayer(content)
-          : content.type == ContentType.video
-              ? _buildVideoPlayer(content)
-              : _buildUnsupportedContent(),
+    // 보호된 콘텐츠로 감싸기
+    return _buildProtectedContent(
+      child: Container(
+        width: double.infinity,
+        height: double.infinity,
+        child: content.type == ContentType.image
+            ? _buildImagePlayer(content)
+            : content.type == ContentType.video
+                ? _buildVideoPlayer(content)
+                : _buildUnsupportedContent(),
+      ),
+      content: content,
+    );
+  }
+
+  /// 보호된 콘텐츠 위젯 생성
+  Widget _buildProtectedContent({required Widget child, required Content content}) {
+    final currentUser = ref.watch(currentUserProvider);
+    final watermarkText = SecurityUtils.generateWatermarkText(
+      currentUser?.id,
+      currentUser?.name,
+    );
+
+    return ContentProtectionWidget(
+      watermarkText: watermarkText,
+      enableRightClickPrevention: true,
+      enableTextSelectionPrevention: true,
+      enableDragPrevention: true,
+      enableDevToolsDetection: true,
+      enableScreenshotPrevention: true,
+      enableWatermark: true,
+      watermarkOpacity: 0.12,
+      watermarkFontSize: 12.0,
+      watermarkColor: Colors.white,
+      onSecurityViolation: () {
+        SecurityUtils.logSecurityEvent('content_protection_violation', {
+          'contentId': content.id,
+          'contentTitle': content.title,
+          'creatorId': content.creatorId,
+          'userId': currentUser?.id,
+          'username': currentUser?.name,
+          'timestamp': DateTime.now().toIso8601String(),
+          'userAgent': 'Flutter Web App',
+        });
+        
+        // 추가 보안 조치 - 의심스러운 활동 시 알림
+        if (mounted) {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => AlertDialog(
+              icon: const Icon(Icons.security, color: Colors.red, size: 48),
+              title: const Text('보안 경고'),
+              content: const Text(
+                '비정상적인 활동이 감지되었습니다.\n콘텐츠 보호를 위해 모니터링됩니다.',
+                textAlign: TextAlign.center,
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: const Text('확인'),
+                ),
+              ],
+            ),
+          );
+        }
+      },
+      child: child,
     );
   }
 

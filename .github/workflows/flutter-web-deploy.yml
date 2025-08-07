@@ -37,7 +37,7 @@ jobs:
       - name: Build web
         run: |
           flutter build web --release \
-            --base-href "/contents/"
+            --base-href "/onlyfanslike/"
       
       - name: Setup Pages
         uses: actions/configure-pages@v4

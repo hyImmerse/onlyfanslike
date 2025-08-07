@@ -93,25 +93,40 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   onTap: () {
                     context.push('/profile');
                   },
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(24),
                   child: Container(
-                    padding: const EdgeInsets.all(4),
-                    child: CircleAvatar(
-                      radius: 18,
-                      backgroundColor: currentUser?.profileImageUrl != null
-                          ? Colors.transparent
-                          : const Color(0xFF7C4DFF), // 보라색 배경
-                      backgroundImage: currentUser?.profileImageUrl != null
-                          ? NetworkImage(currentUser!.profileImageUrl!)
-                          : null,
-                      child: currentUser?.profileImageUrl == null
-                          ? const Icon(
-                              Icons.person,
-                              size: 20,
-                              color: Colors.white, // 흰색 아이콘
-                            )
-                          : null,
+                    width: 42,
+                    height: 42,
+                    padding: const EdgeInsets.all(2),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: const Color(0xFF7C4DFF), // 보라색 테두리
+                        width: 2,
+                      ),
                     ),
+                    child: currentUser?.profileImageUrl != null
+                        ? CircleAvatar(
+                            backgroundColor: Colors.transparent,
+                            backgroundImage: NetworkImage(currentUser!.profileImageUrl!),
+                          )
+                        : Container(
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              gradient: LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: [
+                                  Color(0xFF9575CD), // 연한 보라색
+                                  Color(0xFF7C4DFF), // 진한 보라색
+                                ],
+                              ),
+                            ),
+                            child: CustomPaint(
+                              size: const Size(38, 38),
+                              painter: ProfileIconPainter(),
+                            ),
+                          ),
                   ),
                 ),
               ),
@@ -391,4 +406,62 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     if (width > 600) return 3;
     return 2;
   }
+}
+
+/// Custom painter for profile icon
+class ProfileIconPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2.5;
+
+    final fillPaint = Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.fill;
+
+    // Draw head (circle)
+    final headRadius = size.width * 0.15;
+    final headCenter = Offset(size.width / 2, size.height * 0.35);
+    canvas.drawCircle(headCenter, headRadius, fillPaint);
+    
+    // Draw body (shoulders)
+    final bodyPath = Path();
+    final bodyTop = headCenter.dy + headRadius + 2;
+    final bodyWidth = size.width * 0.5;
+    final shoulderRadius = size.width * 0.08;
+    
+    // Start from left shoulder
+    bodyPath.moveTo(size.width / 2 - bodyWidth / 2, size.height * 0.85);
+    
+    // Left shoulder curve
+    bodyPath.quadraticBezierTo(
+      size.width / 2 - bodyWidth / 2, 
+      bodyTop,
+      size.width / 2 - shoulderRadius,
+      bodyTop,
+    );
+    
+    // Neck area
+    bodyPath.quadraticBezierTo(
+      size.width / 2,
+      bodyTop - 2,
+      size.width / 2 + shoulderRadius,
+      bodyTop,
+    );
+    
+    // Right shoulder curve
+    bodyPath.quadraticBezierTo(
+      size.width / 2 + bodyWidth / 2,
+      bodyTop,
+      size.width / 2 + bodyWidth / 2,
+      size.height * 0.85,
+    );
+    
+    canvas.drawPath(bodyPath, fillPaint);
+  }
+
+  @override
+  bool shouldRepaint(ProfileIconPainter oldDelegate) => false;
 }

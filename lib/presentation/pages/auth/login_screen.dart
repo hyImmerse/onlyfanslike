@@ -311,15 +311,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     return Column(
       children: [
         // Google Login Button
-        _buildSocialLoginButton(
-          context: context,
-          provider: 'Google',
-          icon: Icons.g_mobiledata,
-          backgroundColor: Colors.white,
-          textColor: Colors.black87,
-          borderColor: Colors.grey.shade300,
-          isLoading: isLoading,
-        ),
+        _buildGoogleLoginButton(context, isLoading),
         const SizedBox(height: 12),
         
         // Facebook Login Button
@@ -333,6 +325,45 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           isLoading: isLoading,
         ),
       ],
+    );
+  }
+
+  Widget _buildGoogleLoginButton(BuildContext context, bool isLoading) {
+    return SizedBox(
+      width: double.infinity,
+      height: 48,
+      child: OutlinedButton(
+        onPressed: isLoading ? null : () => _handleSocialLogin('Google'),
+        style: OutlinedButton.styleFrom(
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black87,
+          side: BorderSide(color: Colors.grey.shade300),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Google Logo using custom paint
+            SizedBox(
+              width: 18,
+              height: 18,
+              child: CustomPaint(
+                painter: GoogleLogoPainter(),
+              ),
+            ),
+            const SizedBox(width: 12),
+            const Text(
+              'Google로 로그인',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -369,4 +400,63 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       ),
     );
   }
+}
+
+// Google Logo Painter
+class GoogleLogoPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()..style = PaintingStyle.fill;
+    
+    // Blue
+    paint.color = const Color(0xFF4285F4);
+    canvas.drawArc(
+      Rect.fromLTWH(0, 0, size.width, size.height),
+      -45 * 3.14159 / 180,
+      -90 * 3.14159 / 180,
+      true,
+      paint,
+    );
+    
+    // Green
+    paint.color = const Color(0xFF34A853);
+    canvas.drawArc(
+      Rect.fromLTWH(0, 0, size.width, size.height),
+      225 * 3.14159 / 180,
+      -90 * 3.14159 / 180,
+      true,
+      paint,
+    );
+    
+    // Yellow
+    paint.color = const Color(0xFFFBBC05);
+    canvas.drawArc(
+      Rect.fromLTWH(0, 0, size.width, size.height),
+      135 * 3.14159 / 180,
+      -90 * 3.14159 / 180,
+      true,
+      paint,
+    );
+    
+    // Red
+    paint.color = const Color(0xFFEA4335);
+    canvas.drawArc(
+      Rect.fromLTWH(0, 0, size.width, size.height),
+      45 * 3.14159 / 180,
+      -90 * 3.14159 / 180,
+      true,
+      paint,
+    );
+    
+    // White center
+    paint.color = Colors.white;
+    canvas.drawCircle(
+      Offset(size.width / 2, size.height / 2),
+      size.width * 0.3,
+      paint,
+    );
+  }
+  
+  @override
+  bool shouldRepaint(GoogleLogoPainter oldDelegate) => false;
 }

@@ -87,23 +87,32 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 tooltip: '메시지',
               ),
               // 프로필 아이콘
-              IconButton(
-                onPressed: () {
-                  context.push('/profile');
-                },
-                icon: CircleAvatar(
-                  radius: 16,
-                  backgroundColor: Theme.of(context).colorScheme.primary,
-                  backgroundImage: currentUser?.profileImageUrl != null
-                      ? NetworkImage(currentUser!.profileImageUrl!)
-                      : null,
-                  child: currentUser?.profileImageUrl == null
-                      ? Icon(
-                          Icons.person,
-                          size: 18,
-                          color: Theme.of(context).colorScheme.onPrimary,
-                        )
-                      : null,
+              Padding(
+                padding: const EdgeInsets.only(right: 4),
+                child: InkWell(
+                  onTap: () {
+                    context.push('/profile');
+                  },
+                  borderRadius: BorderRadius.circular(20),
+                  child: Container(
+                    padding: const EdgeInsets.all(4),
+                    child: CircleAvatar(
+                      radius: 18,
+                      backgroundColor: currentUser?.profileImageUrl != null
+                          ? Colors.transparent
+                          : const Color(0xFF7C4DFF), // 보라색 배경
+                      backgroundImage: currentUser?.profileImageUrl != null
+                          ? NetworkImage(currentUser!.profileImageUrl!)
+                          : null,
+                      child: currentUser?.profileImageUrl == null
+                          ? const Icon(
+                              Icons.person,
+                              size: 20,
+                              color: Colors.white, // 흰색 아이콘
+                            )
+                          : null,
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(width: 8),

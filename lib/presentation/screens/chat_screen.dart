@@ -111,7 +111,15 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
           children: [
             CircleAvatar(
               radius: 18,
+              backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
               backgroundImage: _getConversationAvatar(),
+              child: _getConversationAvatar() == null
+                  ? Icon(
+                      Icons.person_outline,
+                      size: 20,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    )
+                  : null,
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -276,8 +284,20 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
   }
   
   ImageProvider? _getConversationAvatar() {
-    // In a real app, would get from conversation data
-    return const NetworkImage('https://i.pravatar.cc/150?img=1');
+    // Using Unsplash for realistic profile images
+    // Using specific portrait photos from Unsplash
+    final List<String> profileImages = [
+      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop', // Male portrait 1
+      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop', // Female portrait 1
+      'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop', // Female portrait 2
+      'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&h=150&fit=crop', // Female portrait 3
+      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop', // Male portrait 2
+      'https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=150&h=150&fit=crop', // Male portrait 3
+    ];
+    
+    // Use conversation ID to consistently select same image
+    final index = widget.conversationId.hashCode % profileImages.length;
+    return NetworkImage(profileImages[index.abs()]);
   }
   
   String _getConversationTitle() {

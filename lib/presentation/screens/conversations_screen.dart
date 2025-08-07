@@ -115,15 +115,9 @@ class _ConversationTile extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 28,
-            backgroundImage: conversation.creatorAvatar != null
-                ? NetworkImage(conversation.creatorAvatar!)
-                : null,
-            child: conversation.creatorAvatar == null
-                ? Text(
-                    conversation.creatorName[0].toUpperCase(),
-                    style: const TextStyle(fontSize: 20),
-                  )
-                : null,
+            backgroundColor: theme.colorScheme.surfaceVariant,
+            backgroundImage: _getUnsplashAvatar(conversation.id),
+            child: null, // Always show image
           ),
           if (hasUnread)
             Positioned(
@@ -248,5 +242,23 @@ class _ConversationTile extends StatelessWidget {
     } else {
       return DateFormat('M/d').format(dateTime);
     }
+  }
+  
+  ImageProvider _getUnsplashAvatar(String conversationId) {
+    // Using Unsplash for realistic profile images
+    final List<String> profileImages = [
+      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop', // Male portrait 1
+      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop', // Female portrait 1
+      'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop', // Female portrait 2
+      'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&h=150&fit=crop', // Female portrait 3
+      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop', // Male portrait 2
+      'https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=150&h=150&fit=crop', // Male portrait 3
+      'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&h=150&fit=crop', // Male portrait 4
+      'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop', // Female portrait 4
+    ];
+    
+    // Use conversation ID to consistently select same image
+    final index = conversationId.hashCode % profileImages.length;
+    return NetworkImage(profileImages[index.abs()]);
   }
 }

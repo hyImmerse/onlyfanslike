@@ -40,11 +40,18 @@ class MessageBubble extends StatelessWidget {
           if (!isMe && showAvatar) ...[
             CircleAvatar(
               radius: 16,
-              backgroundImage: message.senderAvatar != null
-                  ? NetworkImage(message.senderAvatar!)
-                  : null,
-              child: message.senderAvatar == null
-                  ? Text(message.senderName[0].toUpperCase())
+              backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+              backgroundImage: _getUnsplashAvatar(message.senderId),
+              child: _getUnsplashAvatar(message.senderId) == null
+                  ? Text(
+                      message.senderName.isNotEmpty 
+                          ? message.senderName[0].toUpperCase()
+                          : '?',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
                   : null,
             ),
             const SizedBox(width: 8),
@@ -293,5 +300,25 @@ class MessageBubble extends StatelessWidget {
       case MessageStatus.failed:
         return Icons.error_outline;
     }
+  }
+  
+  ImageProvider? _getUnsplashAvatar(String userId) {
+    // Using Unsplash for realistic profile images
+    final List<String> profileImages = [
+      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop', // Male portrait 1
+      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop', // Female portrait 1
+      'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop', // Female portrait 2
+      'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&h=150&fit=crop', // Female portrait 3
+      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop', // Male portrait 2
+      'https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=150&h=150&fit=crop', // Male portrait 3
+      'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&h=150&fit=crop', // Male portrait 4
+      'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop', // Female portrait 4
+      'https://images.unsplash.com/photo-1504199367641-aba8151af406?w=150&h=150&fit=crop', // Female portrait 5
+      'https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?w=150&h=150&fit=crop', // Female portrait 6
+    ];
+    
+    // Use user ID to consistently select same image for same user
+    final index = userId.hashCode % profileImages.length;
+    return NetworkImage(profileImages[index.abs()]);
   }
 }

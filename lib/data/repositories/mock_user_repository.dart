@@ -6,11 +6,12 @@ class MockUserRepository implements UserRepository {
   User? _currentUser;
   
   static final List<UserModel> _mockUsers = [
+    // 데모용 계정 (기존 호환성 유지)
     UserModel(
       id: '1',
-      email: 'kimcs@example.com',
+      email: 'john@example.com',
       name: '김철수',
-      profileImageUrl: 'https://example.com/profiles/kimcs.jpg',
+      profileImageUrl: 'https://example.com/profiles/john.jpg',
       isCreator: true,
       createdAt: DateTime.now().subtract(const Duration(days: 30)),
       updatedAt: DateTime.now(),

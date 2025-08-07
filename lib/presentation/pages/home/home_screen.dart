@@ -90,6 +90,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               Padding(
                 padding: const EdgeInsets.only(right: 4),
                 child: InkWell(
+                  key: ValueKey(currentUser?.id ?? 'no-user'), // 상태 변경 시 리빌드
                   onTap: () {
                     context.push('/profile');
                   },
@@ -101,30 +102,27 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(
-                        color: Theme.of(context).colorScheme.primary, // 테마 primary 색상
+                        color: Theme.of(context).colorScheme.primary,
                         width: 2,
                       ),
                     ),
-                    child: currentUser?.profileImageUrl != null
-                        ? CircleAvatar(
-                            backgroundColor: Colors.transparent,
-                            backgroundImage: NetworkImage(currentUser!.profileImageUrl!),
-                          )
-                        : Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Theme.of(context).brightness == Brightness.dark
-                                  ? Colors.grey[800] // 다크 테마: 진한 회색 배경
-                                  : Colors.white, // 라이트 테마: 흰색 배경
-                            ),
-                            child: Center(
-                              child: Icon(
-                                Icons.person_outline,
-                                size: 22,
-                                color: Theme.of(context).colorScheme.primary, // 보라색 아이콘
-                              ),
-                            ),
-                          ),
+                    child: CircleAvatar(
+                      backgroundColor: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.grey[800]
+                          : Colors.white,
+                      backgroundImage: (currentUser?.profileImageUrl?.isNotEmpty == true &&
+                              !currentUser!.profileImageUrl!.contains('example.com'))
+                          ? NetworkImage(currentUser.profileImageUrl!)
+                          : null,
+                      child: (currentUser?.profileImageUrl?.isEmpty != false ||
+                              currentUser?.profileImageUrl?.contains('example.com') == true)
+                          ? Icon(
+                              Icons.person_outline,
+                              size: 22,
+                              color: Theme.of(context).colorScheme.primary,
+                            )
+                          : null,
+                    ),
                   ),
                 ),
               ),

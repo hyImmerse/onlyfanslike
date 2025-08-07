@@ -98,16 +98,16 @@ class CreatorSearchNotifier extends StateNotifier<CreatorSearchState> {
 /// Provides list of available creator categories
 final creatorCategoriesProvider = Provider<List<String>>((ref) {
   return [
-    'Technology',
-    'Art',
-    'Fitness',
-    'Music',
-    'Cooking',
-    'Gaming',
-    'Education',
-    'Lifestyle',
-    'Travel',
-    'Fashion',
+    '기술',
+    '예술',
+    '피트니스',
+    '음악',
+    '요리',
+    '게임',
+    '교육',
+    '라이프스타일',
+    '여행',
+    '패션',
   ];
 });
 

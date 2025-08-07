@@ -53,3 +53,12 @@ app.*.map.json
 # Temporary/disabled files
 *.disabled
 nul
+
+# MD 시스템 임시 파일
+*.md.backup
+*.md.tmp
+.markdownlint-cli2-cache
+
+# IDE 설정 (팀 공유를 위해 포함)
+# .cursor-settings
+# .vscode/settings.json

@@ -36,27 +36,7 @@ class CreatorCard extends StatelessWidget {
                   color: Theme.of(context).colorScheme.surfaceContainerHighest,
                 ),
                 child: creator.profileImageUrl.isNotEmpty
-                    ? CachedNetworkImage(
-                        imageUrl: creator.profileImageUrl,
-                        fit: BoxFit.cover,
-                        placeholder: (context, url) => Container(
-                          color: Theme.of(context).colorScheme.surfaceContainerHighest,
-                          child: Center(
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                          ),
-                        ),
-                        errorWidget: (context, url, error) => Container(
-                          color: Theme.of(context).colorScheme.surfaceContainerHighest,
-                          child: Icon(
-                            Icons.person,
-                            size: 48,
-                            color: Theme.of(context).colorScheme.onSurfaceVariant,
-                          ),
-                        ),
-                      )
+                    ? _buildProfileImage(context)
                     : Icon(
                         Icons.person,
                         size: 48,
@@ -167,6 +147,48 @@ class CreatorCard extends StatelessWidget {
     );
   }
 
+  /// Build profile image widget (supports both local and network images)
+  Widget _buildProfileImage(BuildContext context) {
+    // Check if it's a local asset
+    if (creator.profileImageUrl.startsWith('assets/')) {
+      return Image.asset(
+        creator.profileImageUrl,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) => Container(
+          color: Theme.of(context).colorScheme.surfaceContainerHighest,
+          child: Icon(
+            Icons.person,
+            size: 48,
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
+          ),
+        ),
+      );
+    }
+    
+    // Network image
+    return CachedNetworkImage(
+      imageUrl: creator.profileImageUrl,
+      fit: BoxFit.cover,
+      placeholder: (context, url) => Container(
+        color: Theme.of(context).colorScheme.surfaceContainerHighest,
+        child: Center(
+          child: CircularProgressIndicator(
+            strokeWidth: 2,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+        ),
+      ),
+      errorWidget: (context, url, error) => Container(
+        color: Theme.of(context).colorScheme.surfaceContainerHighest,
+        child: Icon(
+          Icons.person,
+          size: 48,
+          color: Theme.of(context).colorScheme.onSurfaceVariant,
+        ),
+      ),
+    );
+  }
+
   /// Format number for display (e.g., 1.2K, 1.5M)
   String _formatNumber(int number) {
     if (number >= 1000000) {
@@ -199,7 +221,7 @@ class CompactCreatorCard extends StatelessWidget {
           radius: 24,
           backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
           backgroundImage: creator.profileImageUrl.isNotEmpty 
-              ? CachedNetworkImageProvider(creator.profileImageUrl)
+              ? _getImageProvider()
               : null,
           child: creator.profileImageUrl.isEmpty
               ? Icon(
@@ -256,6 +278,13 @@ class CompactCreatorCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  ImageProvider? _getImageProvider() {
+    if (creator.profileImageUrl.startsWith('assets/')) {
+      return AssetImage(creator.profileImageUrl);
+    }
+    return CachedNetworkImageProvider(creator.profileImageUrl);
   }
 
   String _formatNumber(int number) {

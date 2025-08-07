@@ -1,0 +1,40 @@
+{
+  "context_files": [
+    "CLAUDE.md",
+    "docs/MD_STANDARDS.md",
+    "TODO.md",
+    "docs/DEVELOPMENT.md",
+    "docs/FEATURES.md"
+  ],
+  "auto_context": true,
+  "markdown": {
+    "auto_format": true,
+    "lint_on_save": true,
+    "toc_update": true
+  },
+  "flutter": {
+    "use_fvm": true,
+    "fvm_version": "3.32.5",
+    "auto_pub_get": true,
+    "auto_build_runner": true
+  },
+  "rules": {
+    "always_read_claude_md": true,
+    "follow_md_standards": true,
+    "update_todo_on_change": true,
+    "use_clean_architecture": true,
+    "prefer_riverpod": true
+  },
+  "project": {
+    "type": "flutter_web",
+    "architecture": "clean",
+    "state_management": "riverpod",
+    "primary_target": "web"
+  },
+  "ai_instructions": {
+    "always_use_fvm": "모든 Flutter 명령어 앞에 fvm을 붙여주세요",
+    "follow_patterns": "Clean Architecture 패턴을 엄격히 준수하세요",
+    "mock_first": "개발 시 Mock Repository를 우선 사용하세요",
+    "web_optimization": "웹 플랫폼을 위한 최적화를 우선시하세요"
+  }
+}

@@ -113,13 +113,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         : Container(
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: Theme.of(context).colorScheme.surface, // 배경색
+                              color: Theme.of(context).brightness == Brightness.dark
+                                  ? Colors.grey[800] // 다크 테마: 진한 회색 배경
+                                  : Colors.white, // 라이트 테마: 흰색 배경
                             ),
                             child: Center(
                               child: Icon(
-                                Icons.person,
-                                size: 24,
-                                color: Theme.of(context).colorScheme.primary, // 아이콘 색상
+                                Icons.person_outline,
+                                size: 22,
+                                color: Theme.of(context).colorScheme.primary, // 보라색 아이콘
                               ),
                             ),
                           ),
